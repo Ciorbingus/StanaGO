@@ -95,3 +95,4 @@ A:\Coding\StanaGO\obj\Debug\net9.0\refint\StanaGO.dll
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.pdb
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.genruntimeconfig.cache
 A:\Coding\StanaGO\obj\Debug\net9.0\ref\StanaGO.dll
+A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.sourcelink.json

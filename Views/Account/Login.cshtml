@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData [ "Title" ] = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post" action="/Account/Login">
+    <div>
+        <label>Username</label>
+        <input type="text" name="Username" required />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input type="password" name="Password" required />
+    </div>
+
+    <div>
+        <button type="submit">Login</button>
+    </div>
+
+    <div>
+        <a href="/Account/Register">Nu ai cont? Înregistrează-te</a>
+    </div>
+</form>
