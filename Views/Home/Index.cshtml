@@ -1,8 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div id="map" style="height: 600px;"></div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>STANA GO.</p>
-</div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // Coordonatele aproximative ale granițelor României
+    var romaniaBounds = [
+        [43.5, 20.2],  // Sud-Vest
+        [48.7, 29.7]   // Nord-Est
+    ];
+
+    // Inițializează harta cu limite
+    var map = L.map('map', {
+        center: [45.9, 24.7], // centru aproximativ România
+        zoom: 7,
+        minZoom: 6,
+        maxZoom: 16,
+        maxBounds: romaniaBounds,       // limitele geografice
+        maxBoundsViscosity: 0.9         // cât de „strâns” e blocarea pan-ului
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var userMarker = null;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+            function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Ești aici!");
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
+
+                // Centrare hartă pe utilizator
+                map.setView([lat, lon], 13);
+            },
+            function(error) {
+                console.error("Eroare locație: ", error);
+            },
+            { enableHighAccuracy: true }
+        );
+    } else {
+        alert("Browser-ul tău nu suportă geolocation.");
+    }
+</script>
