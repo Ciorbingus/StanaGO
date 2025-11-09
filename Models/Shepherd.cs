@@ -2,13 +2,11 @@
 {
     public class Shepherd : User
     {
-        public Shepherd ( string username, string passwordHash, string email, string firstName, string lastName )
-            : base (username, passwordHash, email, firstName, lastName)
-        { }
+        public virtual ICollection<Sheepfarm> Farms { get; set; } = new List<Sheepfarm> ();
 
-        public Shepherd ( ) { }
+        public Shepherd ( ) : base () { }
 
-        public string? Address { get; set; }
+        public Shepherd ( string firstName, string lastName ) : base (firstName, lastName) { }
+
     }
-
 }

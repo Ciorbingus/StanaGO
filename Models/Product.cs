@@ -1,37 +1,41 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StanaGO.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StanaGO.Models
 {
     public class Product
     {
-        [Key] 
+        [Key]
         [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
         [Required]
         [StringLength (100)]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
         [StringLength (500)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         [Required]
-        [Range (0, double.MaxValue)]
+        [Column (TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
-        [StringLength (200)]
-        public string? ImagePath { get; set; } = null;
+        [StringLength (255)]
+        public string? ImagePath { get; set; }
 
-        public Product ( ) { }
+        public DateTimeOffset TimePublished { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset? TimeExpiration { get; set; } = null; 
 
-        public Product ( string name, string description, decimal price, string? imagePath = null )
-        {
-            Name = name;
-            Description = description;
-            Price = price;
-            ImagePath = imagePath;
-        }
+        [Required]
+        public ProductStatus Status { get; set; } = ProductStatus.Available;
+
+        
+        [Required]
+        public int FarmId { get; set; }
+
+        [ForeignKey (nameof (FarmId))]
+        public virtual Sheepfarm Farm { get; set; } = null!; 
+
     }
 }

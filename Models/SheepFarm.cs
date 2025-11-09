@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StanaGO.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StanaGO.Models
@@ -13,22 +14,22 @@ namespace StanaGO.Models
         [StringLength (100)]
         public string Name { get; set; } = string.Empty;
 
+        [Required]
+        [StringLength (255)]
+        public string Address { get; set; } = string.Empty; 
+
+        [Required]
+        [StringLength (450)] 
+        public string OwnerId { get; set; } = string.Empty;
+
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        [ForeignKey ("Owner")]
-        public int OwnerId { get; set; }
-        public Shepherd Owner { get; set; }
+        [StringLength (255)]
+        public string? MapIcon { get; set; } 
 
-        public Sheepfarm ( ) { }
-
-        public Sheepfarm ( string name, double latitude, double longitude, Shepherd owner )
-        {
-            Name = name;
-            Latitude = latitude;
-            Longitude = longitude;
-            Owner = owner;
-            OwnerId = owner.Id;
-        }
+        [ForeignKey (nameof (OwnerId))]
+        public virtual Shepherd Owner { get; set; } = null!;
+        public virtual ICollection<Product> Products { get; set; } = new List<Product> ();
     }
 }

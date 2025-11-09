@@ -1,29 +1,53 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.AspNetCore.Identity; 
+using Microsoft.EntityFrameworkCore;
+using StanaGO.Data; 
+using StanaGO.Models; 
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+var builder = WebApplication.CreateBuilder (args);
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+builder.Services.AddDbContext<StanaGOContext> (options =>
+    options.UseSqlServer (builder.Configuration.GetConnectionString ("DefaultConnection")));
+
+
+builder.Services.AddIdentity<User, IdentityRole> (options => {
+
+    // Pentru a opri confirmarea pe email
+    options.SignIn.RequireConfirmedAccount = false;
+
+    // --- AICI ANULEZI PAROLA PUTERNICĂ ---
+    // Adaugă aceste linii pentru a permite parole simple
+
+    options.Password.RequireDigit = false; // Nu cere cifre
+    options.Password.RequireLowercase = false; // Nu cere minuscule
+    options.Password.RequireUppercase = false; // Nu cere majuscule
+    options.Password.RequireNonAlphanumeric = false; // Nu cere simboluri (ex: !)
+
+    // Setezi o lungime minimă mică
+    options.Password.RequiredLength = 4;
+})
+    .AddEntityFrameworkStores<StanaGOContext> (); // Sau StanaGOContext
+
+builder.Services.AddControllersWithViews ();
+
+var app = builder.Build ();
+
+if ( !app.Environment.IsDevelopment () )
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseExceptionHandler ("/Home/Error");
+    app.UseHsts ();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
+app.UseHttpsRedirection ();
+app.UseStaticFiles ();
 
-app.UseAuthorization();
+app.UseRouting ();
 
-app.MapStaticAssets();
+app.UseAuthentication (); 
+app.UseAuthorization (); 
 
-app.MapControllerRoute(
+app.MapControllerRoute (
     name: "default",
-    pattern: "{controller=Home}/{action=Welcome}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Welcome}/{id?}");
 
-
-app.Run();
+app.Run ();

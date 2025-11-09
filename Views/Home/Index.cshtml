@@ -4,20 +4,15 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-    // Coordonatele aproximative ale granițelor României
-    var romaniaBounds = [
-        [43.5, 20.2],  // Sud-Vest
-        [48.7, 29.7]   // Nord-Est
-    ];
+    var romaniaBounds = [ [43.5, 20.2], [48.7, 29.7] ];
 
-    // Inițializează harta cu limite
     var map = L.map('map', {
-        center: [45.9, 24.7], // centru aproximativ România
+        center: [45.9, 24.7], 
         zoom: 7,
         minZoom: 6,
         maxZoom: 16,
-        maxBounds: romaniaBounds,       // limitele geografice
-        maxBoundsViscosity: 0.9         // cât de „strâns” e blocarea pan-ului
+        maxBounds: romaniaBounds,       
+        maxBoundsViscosity: 0.9         
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -26,27 +21,34 @@
 
     var userMarker = null;
 
-    if (navigator.geolocation) {
+    if (navigator.geolocation) 
+    {
         navigator.geolocation.watchPosition(
-            function(position) {
+            function(position) 
+            {
                 var lat = position.coords.latitude;
                 var lon = position.coords.longitude;
 
-                if (!userMarker) {
+                if (!userMarker) 
+                {
                     userMarker = L.marker([lat, lon]).addTo(map).bindPopup("Ești aici!");
-                } else {
+                } 
+                else 
+                {
                     userMarker.setLatLng([lat, lon]);
                 }
 
-                // Centrare hartă pe utilizator
                 map.setView([lat, lon], 13);
             },
-            function(error) {
+            function(error) 
+            {
                 console.error("Eroare locație: ", error);
             },
             { enableHighAccuracy: true }
         );
-    } else {
+    } 
+    else 
+    {
         alert("Browser-ul tău nu suportă geolocation.");
     }
 </script>
