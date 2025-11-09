@@ -25,6 +25,10 @@ namespace StanaGO.Controllers
         [HttpGet]
         public IActionResult Register ( )
         {
+            if ( User.Identity.IsAuthenticated )
+            {
+                return RedirectToAction ("Index", "Home");
+            }
             return View ();
         }
 
@@ -84,6 +88,10 @@ namespace StanaGO.Controllers
         [HttpGet]
         public IActionResult Login ( )
         {
+            if ( User.Identity.IsAuthenticated )
+            {
+                return RedirectToAction ("Index", "Home");
+            }
             return View ();
         }
 

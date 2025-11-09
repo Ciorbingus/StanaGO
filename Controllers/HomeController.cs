@@ -1,6 +1,7 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StanaGO.Models;
+using System.Diagnostics;
 
 namespace StanaGO.Controllers
 {
@@ -13,11 +14,13 @@ namespace StanaGO.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
@@ -25,7 +28,11 @@ namespace StanaGO.Controllers
 
         public IActionResult Welcome ( )
         {
-            return View();
+            if ( User.Identity.IsAuthenticated )
+            {
+                return RedirectToAction ("Index", "Home");
+            }
+            return View ();     
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
