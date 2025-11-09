@@ -67,8 +67,9 @@ namespace StanaGO.Controllers
                 user.NormalizedUserName = _userManager.KeyNormalizer.NormalizeName (user.UserName);
                 user.NormalizedEmail = _userManager.KeyNormalizer.NormalizeEmail (user.Email);
                 user.SecurityStamp = Guid.NewGuid ().ToString ("D");
+                user.ConcurrencyStamp = Guid.NewGuid ().ToString ("D");
 
-            
+
                 _context.Casuals.Add (user);
               
 
@@ -101,9 +102,9 @@ namespace StanaGO.Controllers
             if ( ModelState.IsValid )
             {
                 var result = await _signInManager.PasswordSignInAsync (
-                    model.Email, 
+                    model.Email,
                     model.Password,
-                    model.RememberMe,
+                    model.RememberMe, 
                     lockoutOnFailure: false);
 
                 if ( result.Succeeded )
@@ -112,12 +113,19 @@ namespace StanaGO.Controllers
                 }
                 else
                 {
-                    var user = await _userManager.FindByNameAsync (model.Email);
+                    var user = await _userManager.FindByEmailAsync (model.Email);
+                    if ( user == null )
+                    {
+                        user = await _userManager.FindByNameAsync (model.Email);
+                    }
+
                     if ( user != null )
                     {
-                        var resultUsername = await _signInManager.PasswordSignInAsync (user, model.Password, model.RememberMe, false);
-                        if ( resultUsername.Succeeded )
+                        var resultCheck = await _signInManager.CheckPasswordSignInAsync (user, model.Password, lockoutOnFailure: false);
+
+                        if ( resultCheck.Succeeded )
                         {
+                            await _signInManager.SignInAsync (user, isPersistent: model.RememberMe);
                             return RedirectToAction ("Index", "Home");
                         }
                     }
