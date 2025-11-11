@@ -4,11 +4,13 @@
     ViewData [ "Title" ] = "Login";
 }
 
-<h2>Login</h2>
+<h2>Autentificare</h2>
 
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-action="Login">
+
+            <hr />
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -40,6 +42,7 @@
             <div>
                 <a asp-controller="Account" asp-action="Register">Nu ai cont? Înregistrează-te</a>
             </div>
+
         </form>
     </div>
 </div>

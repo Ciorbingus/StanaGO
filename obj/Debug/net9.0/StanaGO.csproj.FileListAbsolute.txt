@@ -226,10 +226,10 @@ A:\Coding\StanaGO\obj\Debug\net9.0\refint\StanaGO.dll
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.pdb
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.genruntimeconfig.cache
 A:\Coding\StanaGO\obj\Debug\net9.0\ref\StanaGO.dll
-A:\Coding\StanaGO\obj\Debug\net9.0\compressed\bhp8unoby7-lugek5hnai.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\wthdi5caui-fr7q2aak1r.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\hbdap6l6yw-l3n5xuwxn8.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\l1rweh7ex4-ilo7uva0vt.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\0fmdrynq50-qlccset4i1.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\mdbapex2db-xzw0cte36n.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\nmds6emtmf-jfsiqqwiad.gz
+A:\Coding\StanaGO\obj\Debug\net9.0\compressed\bhp8unoby7-48m7naijxz.gz
