@@ -3,7 +3,8 @@
     public enum ProductStatus
     {
         Available = 0,
-        Sold = 1,
-        Archived = 2
+        Queued = 1,
+        Sold = 2,
+        Archived = 3
     }
 }

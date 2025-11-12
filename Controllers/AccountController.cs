@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StanaGO.Data; 
 using StanaGO.Models;
 using StanaGO.ViewModels;
 
 namespace StanaGO.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : Controller           // logica din spatele inregistrarii, autentificarii si deconectarii utilizatorilor
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly StanaGOContext _context; 
 
-        public AccountController (
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            StanaGOContext context )
+        public AccountController (UserManager<User> userManager, SignInManager<User> signInManager, StanaGOContext context )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -23,9 +22,9 @@ namespace StanaGO.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register ( )
+        public IActionResult Register ( )       // actiunea pentru afișarea paginii de înregistrare 
         {
-            if ( User.Identity.IsAuthenticated )
+            if ( User.Identity.IsAuthenticated )     // daca utilizatorul este deja autentificat e trimis direct la pagina principala
             {
                 return RedirectToAction ("Index", "Home");
             }
@@ -34,7 +33,7 @@ namespace StanaGO.Controllers
 
         
         [HttpPost]
-        public async Task<IActionResult> Register ( RegisterViewModel model )
+        public async Task<IActionResult> Register ( RegisterViewModel model )    // actiunea pentru procesarea datelor de înregistrare
         {
             if ( ModelState.IsValid )
             {
@@ -69,7 +68,6 @@ namespace StanaGO.Controllers
                 user.SecurityStamp = Guid.NewGuid ().ToString ("D");
                 user.ConcurrencyStamp = Guid.NewGuid ().ToString ("D");
 
-
                 _context.Casuals.Add (user);
               
 
@@ -77,6 +75,7 @@ namespace StanaGO.Controllers
 
                 if ( result > 0 )
                 {
+                    await _userManager.AddToRoleAsync (user, "Casual");
                     await _signInManager.SignInAsync (user, isPersistent: false);
                     return RedirectToAction ("Index", "Home");
                 }
@@ -87,9 +86,9 @@ namespace StanaGO.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login ( )
+        public IActionResult Login ( )   // actiunea pentru afișarea paginii de autentificare
         {
-            if ( User.Identity.IsAuthenticated )
+            if ( User.Identity.IsAuthenticated )    // daca utilizatorul este deja autentificat e trimis direct la pagina principala
             {
                 return RedirectToAction ("Index", "Home");
             }
@@ -97,7 +96,7 @@ namespace StanaGO.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login ( LoginViewModel model )
+        public async Task<IActionResult> Login ( LoginViewModel model )  // actiunea pentru procesarea datelor de autentificare
         {
             if ( ModelState.IsValid )
             {
@@ -138,10 +137,86 @@ namespace StanaGO.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout ( )
+        public async Task<IActionResult> Logout ( ) // actiunea pentru deconectarea utilizatorului
         {
             await _signInManager.SignOutAsync ();
             return RedirectToAction ("Index", "Home");
         }
+
+
+        [Authorize] 
+        [HttpGet]
+        public IActionResult BecomeShepherd ( )   // actiunea pentru afișarea paginii de convertire a unui utilizator normal in utilizator tip cioban
+        {
+            if ( User.Identity.IsAuthenticated && User.IsInRole ("Shepherd") )
+            {
+                return RedirectToAction ("Index", "Home");
+            }
+
+            return View (new BecomeShepherdViewModel ());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> BecomeShepherd ( BecomeShepherdViewModel model )   // actiunea pentru convertire 
+        {
+            if ( !ModelState.IsValid )
+            {
+                return View (model);
+            }
+
+            var userId = _userManager.GetUserId (User);
+            if ( userId == null )
+            {
+                return Unauthorized ();
+            }
+
+            var casualUser = await _context.Users.OfType<Casual> ().FirstOrDefaultAsync (u => u.Id == userId);
+
+            if ( casualUser == null )
+            {
+                return RedirectToAction ("Index", "Home");
+            }
+
+            var shepherdUser = new Shepherd
+            {
+                Id = casualUser.Id,
+                UserName = casualUser.UserName,
+                NormalizedUserName = casualUser.NormalizedUserName,
+                Email = casualUser.Email,
+                NormalizedEmail = casualUser.NormalizedEmail,
+                PasswordHash = casualUser.PasswordHash,
+                ConcurrencyStamp = casualUser.ConcurrencyStamp, 
+                SecurityStamp = Guid.NewGuid ().ToString ("D"), 
+
+                FirstName = casualUser.FirstName,
+                LastName = casualUser.LastName,
+                RegistrationTime = casualUser.RegistrationTime,
+                Status = casualUser.Status,
+                EmailConfirmed = casualUser.EmailConfirmed,
+
+                PhoneNumber = model.PhoneNumber,
+                PhoneNumberConfirmed = true 
+            };
+
+            _context.Users.Remove (casualUser);
+            _context.Shepherds.Add (shepherdUser);
+
+            var saveResult = await _context.SaveChangesAsync ();
+
+            if ( saveResult > 0 )
+            {
+                await _signInManager.SignOutAsync ();
+                await _userManager.RemoveFromRoleAsync (shepherdUser, "Casual");
+                await _userManager.AddToRoleAsync (shepherdUser, "Shepherd");
+                await _signInManager.SignInAsync (shepherdUser, isPersistent: false);
+
+                return RedirectToAction ("Index", "Home");
+            }
+
+            ModelState.AddModelError (string.Empty, "Eroare la conversia contului. Încearcă din nou.");
+            return View (model);
+        }
+
     }
 }

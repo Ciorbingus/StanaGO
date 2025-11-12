@@ -15,17 +15,17 @@
     <header>
 
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bg-color nav-text_color border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bg-color nav-text_color border-bottom box-shadow mb-3">    @* Navbar *@ 
             <div class="container-fluid">
 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StanaGO</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StanaGO</a>                       @* buton home / Numele site-ului *@
 
-                <div class="d-flex align-items-center w-100">
+                <div class="d-flex align-items-center w-100">                                                                  @* Aliniere elemente navbar *@
 
-                    <div class="d-none d-sm-flex align-items-center me-auto ms-5" style="min-width: 300px; max-width: 500px;">
+                    <div class="d-none d-sm-flex align-items-center me-auto ms-5" style="min-width: 300px; max-width: 500px;">      @* Cautare *@
                         @if ( User.Identity.IsAuthenticated )
                         {
-                            <form class="d-flex w-100" role="search" asp-controller="Search" asp-action="Results" method="get">
+                            <form class="d-flex w-100" role="search" asp-controller="Home" asp-action="Index" method="get">
                                 <div class="input-group">
                                     <input class="form-control" type="search" placeholder="Căută-n giur de tine..." aria-label="Search" name="query">
                                     <button class="btn btn-light" type="submit" title="Căutare">
@@ -36,7 +36,7 @@
                         }
                     </div>
 
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav">                                             
 
                         @if ( User.Identity.IsAuthenticated )
                         {
@@ -49,26 +49,37 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item dropdown nav-bg-color">
+                            <li class="nav-item dropdown nav-bg-color">                     @* meniu dropdown *@
                                 <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Salut, @User.Identity.Name! ☰
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 700px">
+                                <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 400px">
                                     <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">👤Profilul tău</a></li>
 
                                     <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">💬 Mesaje</a></li>
 
                                     <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🛒 Comenzi</a></li>
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🐑 Devino cioban!</a></li>
+                                    @if ( User.IsInRole ("Casual") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="BecomeShepherd">🐑 Devino cioban!</a></li>
+                                    }
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🤝 Clienti</a></li>
+                                    @if ( User.IsInRole ("Shepherd") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🏡 Înregistrează o stână</a></li>
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">⚠️ Amenintari</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🤝 Clienti</a></li>
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🚨 Reclamatii</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">⚠️ Amenintari</a></li>
+                                    }
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">📝 Jurnal</a></li>
+                                    @if ( User.IsInRole ("Moderator") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🚨 Reclamatii</a></li
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">📝 Jurnal</a></li>
+                                    }
 
                                     <li><hr class="dropdown-divider"></li>
 

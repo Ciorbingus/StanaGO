@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StanaGO.Models;
 namespace StanaGO.Data
 {
-    public class StanaGOContext : IdentityDbContext<User>
+    public class StanaGOContext : IdentityDbContext<User>   // Legarea logicii cu baza de date
     {
         public StanaGOContext ( DbContextOptions<StanaGOContext> options ) : base (options) { }
 
