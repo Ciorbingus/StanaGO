@@ -3,16 +3,52 @@
   "WorkspaceRootPath": "A:\\Coding\\StanaGO\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\registerfarmmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\registerfarmmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\customersmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\customersmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\ordersmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\ordersmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\searchresultsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\searchresultsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\messagesinboxmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\messagesinboxmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\becomeshepherdviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\becomeshepherdviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\yourfarmsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\yourfarmsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\threatsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\threatsmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\uploadproductmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\uploadproductmodelview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\profileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\profileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,32 +75,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
-              "ToolTip": "A:\\Coding\\StanaGO\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AgIAAJsAAAAAAAAAAAAuwL8AAAAxAAAAAAAAAA==",
+              "Title": "RegisterFarmModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\RegisterFarmModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\RegisterFarmModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\RegisterFarmModelView.cs",
+              "RelativeToolTip": "ViewModels\\RegisterFarmModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:44:29.537Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BecomeShepherdViewModel.cs",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\BecomeShepherdViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\BecomeShepherdViewModel.cs",
-              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\BecomeShepherdViewModel.cs",
-              "RelativeToolTip": "ViewModels\\BecomeShepherdViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:44:10.672Z",
+              "WhenOpened": "2025-11-13T09:23:52.144Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "CustomersModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\CustomersModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\CustomersModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\CustomersModelView.cs",
+              "RelativeToolTip": "ViewModels\\CustomersModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:21:08.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OrdersModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\OrdersModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\OrdersModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\OrdersModelView.cs",
+              "RelativeToolTip": "ViewModels\\OrdersModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:17:25.089Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SearchResultsModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\SearchResultsModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\SearchResultsModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\SearchResultsModelView.cs",
+              "RelativeToolTip": "ViewModels\\SearchResultsModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:16:28.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MessagesInboxModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\MessagesInboxModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MessagesInboxModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\MessagesInboxModelView.cs",
+              "RelativeToolTip": "ViewModels\\MessagesInboxModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:16:00.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ThreatsModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\ThreatsModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ThreatsModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\ThreatsModelView.cs",
+              "RelativeToolTip": "ViewModels\\ThreatsModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:14:46.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "YourFarmsModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\YourFarmsModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\YourFarmsModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\YourFarmsModelView.cs",
+              "RelativeToolTip": "ViewModels\\YourFarmsModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:13:26.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "RegisterViewModel.cs",
               "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\RegisterViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\RegisterViewModel.cs",
@@ -77,7 +178,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
+              "Title": "UploadProductModelView.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\UploadProductModelView.cs",
+              "RelativeDocumentMoniker": "ViewModels\\UploadProductModelView.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\UploadProductModelView.cs",
+              "RelativeToolTip": "ViewModels\\UploadProductModelView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:13:58.685Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ProfileViewModel.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\ProfileViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ProfileViewModel.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\ProfileViewModel.cs",
+              "RelativeToolTip": "ViewModels\\ProfileViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:12:24.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAmwKoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T16:44:29.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BecomeShepherdViewModel.cs",
+              "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\BecomeShepherdViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\BecomeShepherdViewModel.cs",
+              "ToolTip": "A:\\Coding\\StanaGO\\ViewModels\\BecomeShepherdViewModel.cs",
+              "RelativeToolTip": "ViewModels\\BecomeShepherdViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T16:44:10.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "LoginViewModel.cs",
               "DocumentMoniker": "A:\\Coding\\StanaGO\\ViewModels\\LoginViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\LoginViewModel.cs",
@@ -85,8 +238,7 @@
               "RelativeToolTip": "ViewModels\\LoginViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:44:00.084Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T16:44:00.084Z"
             }
           ]
         }
