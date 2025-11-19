@@ -1,28 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "A:\\Coding\\StanaGO\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\views\\shepherd\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:views\\shepherd\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\views\\shepherd\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:views\\shepherd\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|a:\\coding\\stanago\\controllers\\shepherdcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:controllers\\shepherdcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -30,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,71 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AddProduct.cshtml",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Views\\Shepherd\\AddProduct.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shepherd\\AddProduct.cshtml",
-              "ToolTip": "A:\\Coding\\StanaGO\\Views\\Shepherd\\AddProduct.cshtml",
-              "RelativeToolTip": "Views\\Shepherd\\AddProduct.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T16:14:08.528Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Views\\Shepherd\\Details.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shepherd\\Details.cshtml",
-              "ToolTip": "A:\\Coding\\StanaGO\\Views\\Shepherd\\Details.cshtml",
-              "RelativeToolTip": "Views\\Shepherd\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T16:11:56.414Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Product.cs",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Models\\Product.cs",
-              "RelativeDocumentMoniker": "Models\\Product.cs",
-              "ToolTip": "A:\\Coding\\StanaGO\\Models\\Product.cs",
-              "RelativeToolTip": "Models\\Product.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACoAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T15:53:22.384Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ShepherdController.cs",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Controllers\\ShepherdController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ShepherdController.cs",
-              "ToolTip": "A:\\Coding\\StanaGO\\Controllers\\ShepherdController.cs",
-              "RelativeToolTip": "Controllers\\ShepherdController.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAA4wB4AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T15:15:34.994Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "A:\\Coding\\StanaGO\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "A:\\Coding\\StanaGO\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAACfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-19T15:07:46.141Z",
-              "EditorCaption": ""
             }
           ]
         }

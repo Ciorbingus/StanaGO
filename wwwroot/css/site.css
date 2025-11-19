@@ -38,3 +38,8 @@ body {
         color: white;
 }
 
+.navbar {
+    position: relative;
+    z-index: 1030; 
+}
+

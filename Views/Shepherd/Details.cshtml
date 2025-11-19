@@ -14,8 +14,8 @@
                         <p class="text-muted mb-0">📍 @Model.Address</p>
                     </div>
                     <div>
-                        <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn btn-success btn-lg shadow">
-                            🧀 Adaugă Produs
+                        <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color btn-lg shadow text-white">
+                           Adaugă Produs
                         </a>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                     <h5 class="card-title">@prod.Name</h5>
                                     <p class="card-text small text-muted">@prod.Description</p>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <span class="badge bg-success">@prod.Price RON</span>
+                                        <span class="badge nav-bg-color">@prod.Price RON</span>
                                         <span class="text-muted small">@prod.Status</span>
                                     </div>
                                 </div>

@@ -1,8 +1,15 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\default.png
+wwwroot\images\icons\bearIcon.png
+wwwroot\images\icons\icon.png
+wwwroot\images\icons\sheepfarmIcon.png
+wwwroot\images\icons\wolfIcon.png
 wwwroot\images\products\Gemini_Generated_Image_rgb87lrgb87lrgb8251723783.png
+wwwroot\images\products\gnd_tex250633425.png
+wwwroot\images\products\Screenshot 2024-02-03 004938251918460.png
 wwwroot\images\products\Screenshot 2024-08-13 204455251959141.png
+wwwroot\images\products\Screenshot 2024-09-23 175209253449934.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
