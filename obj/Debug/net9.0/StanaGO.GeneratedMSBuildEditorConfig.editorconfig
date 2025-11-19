@@ -15,6 +15,8 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = StanaGO
 build_property.RootNamespace = StanaGO
 build_property.ProjectDir = A:\Coding\StanaGO\
@@ -58,6 +60,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [A:/Coding/StanaGO/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/AddProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcQWRkUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/RegisterFarm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcUmVnaXN0ZXJGYXJtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/ReportThreat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcUmVwb3J0VGhyZWF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/YourFarms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcWW91ckZhcm1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Coding/StanaGO/Views/_ViewImports.cshtml]

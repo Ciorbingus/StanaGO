@@ -1,5 +1,8 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\default.png
+wwwroot\images\products\Gemini_Generated_Image_rgb87lrgb87lrgb8251723783.png
+wwwroot\images\products\Screenshot 2024-08-13 204455251959141.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map

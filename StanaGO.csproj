@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="resources\icons\" />
     <Folder Include="Views\Reports\" />
-    <Folder Include="Views\Products\" />
   </ItemGroup>
 
   <ItemGroup>

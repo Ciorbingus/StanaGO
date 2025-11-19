@@ -1,6 +1,6 @@
 ﻿namespace StanaGO.ViewModels
 {
-    public class ThreatsModelView
+    public class SearchResultsViewModel
     {
     }
 }

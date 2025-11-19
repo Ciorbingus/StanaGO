@@ -1,6 +1,7 @@
 ﻿using StanaGO.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace StanaGO.Models
 {
@@ -23,6 +24,10 @@ namespace StanaGO.Models
 
         [StringLength (255)]
         public string? ImagePath { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Încarcă Imagine")]
+        public IFormFile? ImageFile { get; set; }
 
         public DateTimeOffset TimePublished { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? TimeExpiration { get; set; } = null; 

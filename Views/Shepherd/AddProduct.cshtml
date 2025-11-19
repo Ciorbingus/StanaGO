@@ -1,0 +1,59 @@
+﻿@model StanaGO.Models.Product
+
+@{
+    ViewData["Title"] = "Adaugă Produs";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Adaugă Produs Nou</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="AddProduct" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <input type="hidden" asp-for="FarmId" />
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label">Nume Produs</label>
+                            <input asp-for="Name" class="form-control" placeholder="Ex: Caș proaspăt" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label">Descriere (și unitate)</label>
+                            <textarea asp-for="Description" class="form-control" rows="2" placeholder="Ex: Preț per kg, foarte gustos"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Price" class="form-label">Preț (RON)</label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="ImageFile" class="form-label">Poză Produs</label>
+                            <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Salvează Produsul</button>
+                            <a asp-action="Details" asp-route-id="@Model.FarmId" class="btn btn-outline-secondary">Anulează</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

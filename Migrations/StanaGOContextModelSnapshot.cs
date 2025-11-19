@@ -519,6 +519,13 @@ namespace StanaGO.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("StanaGO.Models.Casual", b =>
+                {
+                    b.HasBaseType("StanaGO.Models.User");
+
+                    b.HasDiscriminator().HasValue("Casual");
+                });
+
             modelBuilder.Entity("StanaGO.Models.Moderator", b =>
                 {
                     b.HasBaseType("StanaGO.Models.User");
