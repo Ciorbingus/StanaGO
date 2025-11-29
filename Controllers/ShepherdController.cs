@@ -93,6 +93,8 @@ namespace StanaGO.Controllers
 
             if (ModelState.IsValid)
             {
+                product.Price = Math.Abs(product.Price);
+
                 if (product.ImageFile != null)
                 {
                     string wwwRootPath = _hostEnvironment.WebRootPath;
