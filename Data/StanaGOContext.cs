@@ -20,6 +20,8 @@ namespace StanaGO.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
 
+        public DbSet<Profile> Profiles { get; set; }
+
         protected override void OnModelCreating ( ModelBuilder builder )
         {
             base.OnModelCreating (builder);
@@ -40,7 +42,20 @@ namespace StanaGO.Data
                 .HasOne (r => r.Moderator)
                 .WithMany (m => m.ResolvedReports)
                 .HasForeignKey (r => r.ModeratorId)
-                .OnDelete (DeleteBehavior.ClientSetNull); 
+                .OnDelete (DeleteBehavior.ClientSetNull);
+
+            builder.Entity<Profile>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Id)
+                      .HasMaxLength(450);
+
+                entity.HasOne(p => p.User)
+                      .WithOne()
+                      .HasForeignKey<Profile>(p => p.Id)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }
