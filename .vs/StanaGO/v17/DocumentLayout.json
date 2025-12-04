@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\IS\\StanaGO\\StanaGO\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|d:\\is\\stanago\\stanago\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|d:\\is\\stanago\\stanago\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -113,10 +117,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|d:\\is\\stanago\\stanago\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|d:\\is\\stanago\\stanago\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B626F03B-668C-43C3-84C6-3787FBCFAC0C}|StanaGO.csproj|d:\\is\\stanago\\stanago\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -270,23 +270,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProfileViewModel.cs",
-              "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\ProfileViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\ProfileViewModel.cs",
-              "ToolTip": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\ProfileViewModel.cs",
-              "RelativeToolTip": "ViewModels\\ProfileViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T09:12:24.49Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "MessagesInboxViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\MessagesInboxViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\MessagesInboxViewModel.cs",
@@ -298,7 +286,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "LoginViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\LoginViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\LoginViewModel.cs",
@@ -311,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "EditProfileViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\EditProfileViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\EditProfileViewModel.cs",
@@ -323,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BecomeShepherdViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\BecomeShepherdViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\BecomeShepherdViewModel.cs",
@@ -335,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "CustomersViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\CustomersViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\CustomersViewModel.cs",
@@ -347,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "UploadProductViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\UploadProductViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\UploadProductViewModel.cs",
@@ -359,7 +347,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "D:\\IS\\StanaGO\\StanaGO\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAuwPcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T16:44:29.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProfileViewModel.cs",
+              "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\ProfileViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ProfileViewModel.cs",
+              "ToolTip": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\ProfileViewModel.cs",
+              "RelativeToolTip": "ViewModels\\ProfileViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T09:12:24.49Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "ThreatsViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\ThreatsViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\ThreatsViewModel.cs",
@@ -371,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "SearchResultsViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\SearchResultsViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\SearchResultsViewModel.cs",
@@ -383,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "OrdersViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\OrdersViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\OrdersViewModel.cs",
@@ -395,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "RegisterViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\ViewModels\\RegisterViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\RegisterViewModel.cs",
@@ -407,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "StanaGOContext.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Data\\StanaGOContext.cs",
               "RelativeDocumentMoniker": "Data\\StanaGOContext.cs",
@@ -419,7 +432,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Moderator.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Models\\Moderator.cs",
               "RelativeDocumentMoniker": "Models\\Moderator.cs",
@@ -431,7 +444,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Profile.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\Account\\Profile.cshtml",
               "RelativeDocumentMoniker": "Views\\Account\\Profile.cshtml",
@@ -443,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -455,7 +468,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -467,7 +480,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -479,7 +492,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "EditProfile.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\Account\\EditProfile.cshtml",
               "RelativeDocumentMoniker": "Views\\Account\\EditProfile.cshtml",
@@ -491,7 +504,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "20251109155457_initial migration.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Migrations\\20251109155457_initial migration.cs",
               "RelativeDocumentMoniker": "Migrations\\20251109155457_initial migration.cs",
@@ -503,7 +516,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "20251109171716_RemovedModeratorSeed.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Migrations\\20251109171716_RemovedModeratorSeed.cs",
               "RelativeDocumentMoniker": "Migrations\\20251109171716_RemovedModeratorSeed.cs",
@@ -515,7 +528,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "20251119160803_AddFarmsAndProducts.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Migrations\\20251119160803_AddFarmsAndProducts.cs",
               "RelativeDocumentMoniker": "Migrations\\20251119160803_AddFarmsAndProducts.cs",
@@ -527,7 +540,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "20251130181229_SyncModels.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Migrations\\20251130181229_SyncModels.cs",
               "RelativeDocumentMoniker": "Migrations\\20251130181229_SyncModels.cs",
@@ -539,7 +552,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "Log.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Models\\Log.cs",
               "RelativeDocumentMoniker": "Models\\Log.cs",
@@ -551,7 +564,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "SheepFarm.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Models\\SheepFarm.cs",
               "RelativeDocumentMoniker": "Models\\SheepFarm.cs",
@@ -563,7 +576,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "PrivateMessage.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Models\\PrivateMessage.cs",
               "RelativeDocumentMoniker": "Models\\PrivateMessage.cs",
@@ -575,7 +588,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
@@ -587,7 +600,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -611,7 +624,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "Register.cshtml",
               "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Views\\Account\\Register.cshtml",
               "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
@@ -632,18 +645,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-11-30T14:01:11.757Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\IS\\StanaGO\\StanaGO\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
-              "ToolTip": "D:\\IS\\StanaGO\\StanaGO\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AgIAADEBAAAAAAAAAAAQwE4BAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T16:44:29.537Z"
             },
             {
               "$type": "Document",

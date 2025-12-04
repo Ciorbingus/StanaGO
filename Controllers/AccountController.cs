@@ -229,11 +229,10 @@ namespace StanaGO.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // 1️⃣ Căutăm profilul în tabela Profiles
             var profile = await _context.Profiles
                 .FirstOrDefaultAsync(p => p.Id == user.Id);
 
-            // 2️⃣ Dacă nu există — îl creăm!
+           
             if (profile == null)
             {
                 profile = new Profile
@@ -247,8 +246,6 @@ namespace StanaGO.Controllers
                 _context.Profiles.Add(profile);
                 await _context.SaveChangesAsync();
             }
-
-            // 3️⃣ Mapăm datele în ViewModel
             var model = new ProfileViewModel
             {
                 UserId = user.Id,
