@@ -43,6 +43,7 @@ namespace StanaGO.Controllers
                     {
                         nearbyProducts.Add(new
                         {
+                            Id = prod.Id,
                             Name = prod.Name,
                             Price = prod.Price,
                             Image = prod.ImagePath,

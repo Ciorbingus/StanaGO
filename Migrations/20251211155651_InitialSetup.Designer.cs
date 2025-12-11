@@ -12,8 +12,8 @@ using StanaGO.Data;
 namespace StanaGO.Migrations
 {
     [DbContext(typeof(StanaGOContext))]
-    [Migration("20251109155457_initial migration")]
-    partial class initialmigration
+    [Migration("20251211155651_InitialSetup")]
+    partial class InitialSetup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,6 +301,32 @@ namespace StanaGO.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("StanaGO.Models.Profile", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AvatarUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LocationText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profiles");
+                });
+
             modelBuilder.Entity("StanaGO.Models.Report", b =>
                 {
                     b.Property<int>("Id")
@@ -522,6 +548,13 @@ namespace StanaGO.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("StanaGO.Models.Casual", b =>
+                {
+                    b.HasBaseType("StanaGO.Models.User");
+
+                    b.HasDiscriminator().HasValue("Casual");
+                });
+
             modelBuilder.Entity("StanaGO.Models.Moderator", b =>
                 {
                     b.HasBaseType("StanaGO.Models.User");
@@ -627,6 +660,17 @@ namespace StanaGO.Migrations
                         .IsRequired();
 
                     b.Navigation("Farm");
+                });
+
+            modelBuilder.Entity("StanaGO.Models.Profile", b =>
+                {
+                    b.HasOne("StanaGO.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("StanaGO.Models.Profile", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StanaGO.Models.Report", b =>

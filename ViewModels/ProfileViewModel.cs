@@ -1,24 +1,36 @@
-﻿namespace StanaGO.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+
+namespace StanaGO.ViewModels
 {
     public class ProfileViewModel
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        [Required(ErrorMessage = "Prenumele este obligatoriu.")]
+        [StringLength(50, ErrorMessage = "Prenumele nu poate depăși 50 de caractere.")]
+        [Display(Name = "Prenume")]
+        public string FirstName { get; set; } = string.Empty;
 
-        public string Username { get; set; }
-        public string PhoneNumber { get; set; }
-        public string AvatarUrl { get; set; }
-        public string LocationText { get; set; }
-        public string UserId { get; set; }
+        [Required(ErrorMessage = "Numele este obligatoriu.")]
+        [StringLength(50, ErrorMessage = "Numele nu poate depăși 50 de caractere.")]
+        [Display(Name = "Nume")]
+        public string LastName { get; set; } = string.Empty;
 
-       public double? Latitude { get; set; }
-       public double? Longitude { get; set; }
-       
-       public string Bio { get; set; }
+        [StringLength(500, ErrorMessage = "Descrierea este prea lungă.")]
+        [Display(Name = "Despre mine (Bio)")]
+        public string? Bio { get; set; }
 
-       public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Număr de Telefon")]
+        [Phone]
+        public string? PhoneNumber { get; set; }
+
+        [StringLength(200, ErrorMessage = "Adresa este prea lungă.")]
+        [Display(Name = "Adresă")]
+        public string? Address { get; set; }
 
 
+        [Display(Name = "Schimbă Poza de Profil")]
+        public IFormFile? ProfileImage { get; set; }
+
+        public string? CurrentProfilePicture { get; set; }
     }
 }

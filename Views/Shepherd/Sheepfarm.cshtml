@@ -1,7 +1,14 @@
 ﻿@model StanaGO.Models.Sheepfarm
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = Model.Name;
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isOwner = (currentUserId == Model.OwnerId);
 }
 
 <div class="container mt-4">
@@ -11,12 +18,18 @@
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h1 class="display-6">@Model.Name</h1>
-                        <p class="text-muted mb-0">📍 @Model.Address</p>
+                        <p class="text-muted mb-0">@Model.Address</p>
                     </div>
                     <div>
-                        <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color btn-lg shadow text-white">
-                           Adaugă Produs
-                        </a>
+                        @if (isOwner)
+                        {
+                            <a asp-action="Home" asp-action="Index" class="btn nav-bg-color btn-lg shadow text-white">
+                                Modifica Detalii
+                            </a>
+                            <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color btn-lg shadow text-white">
+                                Adaugă Produs
+                            </a>
+                        }
                     </div>
                 </div>
             </div>
@@ -38,7 +51,8 @@
                     @foreach (var prod in Model.Products)
                     {
                         <div class="col-md-3 mb-4">
-                            <div class="card h-100 shadow-sm">
+                            <div class="card h-100 shadow-sm position-relative hover-effect">
+
                                 @if (!string.IsNullOrEmpty(prod.ImagePath))
                                 {
                                     <img src="~/images/products/@prod.ImagePath" class="card-img-top" alt="@prod.Name" style="height: 200px; object-fit: cover;">
@@ -52,9 +66,11 @@
                                     <h5 class="card-title">@prod.Name</h5>
                                     <p class="card-text small text-muted">@prod.Description</p>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <span class="badge nav-bg-color">@prod.Price RON</span>
+                                        <span class="badge nav-bg-color text-white">@prod.Price RON</span>
                                         <span class="text-muted small">@prod.Status</span>
                                     </div>
+
+                                    <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +80,27 @@
         </div>
     </div>
 
-    <div class="mt-3">
-        <a asp-action="YourFarms">⬅ Înapoi la lista de stâne</a>
-    </div>
+    @if (isOwner)
+    {
+        <div class="mt-3">
+            <a asp-action="YourFarms" class="btn btn-outline-secondary">Înapoi la lista de stâne</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Înapoi la Harta</a>
+        </div>
+    }
 </div>
+
+<style>
+    .hover-effect {
+        transition: transform 0.2s;
+    }
+
+        .hover-effect:hover {
+            transform: scale(1.02);
+            cursor: pointer;
+        }
+</style>

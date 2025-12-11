@@ -25,6 +25,8 @@ namespace StanaGO.Models
 
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification> ();
 
+        public virtual Profile? UserProfile { get; set; }
+
         public User ( ) { }
 
         public User ( string firstName, string lastName )

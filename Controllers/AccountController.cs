@@ -13,12 +13,14 @@ namespace StanaGO.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly StanaGOContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, StanaGOContext context)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, StanaGOContext context, IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -218,117 +220,106 @@ namespace StanaGO.Controllers
             return View(model);
         }
 
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var userId = _userManager.GetUserId(User);
 
-            if (user == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            var user = await _context.Users.Include(u => u.UserProfile).FirstOrDefaultAsync(u => u.Id == userId);
 
-            var profile = await _context.Profiles
-                .FirstOrDefaultAsync(p => p.Id == user.Id);
+            if (user == null) return RedirectToAction("Login");
 
-           
-            if (profile == null)
-            {
-                profile = new Profile
-                {
-                    Id = user.Id,
-                    AvatarUrl = "/images/default-avatar.png",
-                    LocationText = "",
-                    DateOfBirth = new DateTime(2000, 1, 1)
-                };
+            if (user.UserProfile == null) return RedirectToAction(nameof(EditProfile));
 
-                _context.Profiles.Add(profile);
-                await _context.SaveChangesAsync();
-            }
-            var model = new ProfileViewModel
-            {
-                UserId = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Username = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-                Latitude = user.Latitude,
-                Longitude = user.Longitude,
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewData["UserRole"] = roles.FirstOrDefault() ?? "Casual"; 
 
-                AvatarUrl = profile.AvatarUrl,
-                LocationText = profile.LocationText,
-                Bio = profile.Bio,
-                DateOfBirth = profile.DateOfBirth
-            };
+            ViewData["UserPhone"] = user.PhoneNumber;
 
-            return View(model);
+            return View(user.UserProfile);
         }
-
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var userId = _userManager.GetUserId(User);
+            var user = await _context.Users.Include(u => u.UserProfile).FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
+            if (user == null) return RedirectToAction("Login");
+
+            var model = new ProfileViewModel();
+
+            model.PhoneNumber = user.PhoneNumber;
+
+            if (user.UserProfile != null)
             {
-                return RedirectToAction("Login");
+                model.FirstName = user.UserProfile.FirstName; 
+                model.LastName = user.UserProfile.LastName;   
+                model.Bio = user.UserProfile.Bio;
+                model.Address = user.UserProfile.Address;
+                model.CurrentProfilePicture = user.UserProfile.ImagePath;
+            }
+            else
+            {
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
             }
 
-            var profile = await _context.Profiles
-                .FirstOrDefaultAsync(p => p.Id == user.Id);
-
-            var model = new EditProfileViewModel
-            {
-                UserId = user.Id,
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                AvatarUrl = profile?.AvatarUrl,
-                LocationText = profile?.LocationText,
-                Bio = profile?.Bio
-            };
             return View(model);
         }
 
         [Authorize]
         [HttpPost]
-
-        public async Task <IActionResult> EditProfile(EditProfileViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(ProfileViewModel model)
         {
-            if (!ModelState.IsValid)
+            var userId = _userManager.GetUserId(User);
+            var user = await _context.Users.Include(u => u.UserProfile).FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return RedirectToAction("Login");
+
+            if (ModelState.IsValid)
             {
-                return View(model);
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.PhoneNumber = model.PhoneNumber; 
+
+                if (user.UserProfile == null)
+                {
+                    user.UserProfile = new Profile { Id = userId, User = user };
+                    _context.Profiles.Add(user.UserProfile);
+                }
+
+                user.UserProfile.FirstName = model.FirstName; 
+                user.UserProfile.LastName = model.LastName;  
+                user.UserProfile.Bio = model.Bio;
+                user.UserProfile.Address = model.Address;
+
+                if (model.ProfileImage != null)
+                {
+                    string folderPath = Path.Combine(_hostEnvironment.WebRootPath, "images", "profiles");
+                    if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                    string filePath = Path.Combine(folderPath, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ProfileImage.CopyToAsync(fileStream);
+                    }
+                    user.UserProfile.ImagePath = uniqueFileName;
+                }
+
+                await _userManager.UpdateAsync(user);
+                await _context.SaveChangesAsync(); 
+
+                return RedirectToAction(nameof(Profile));
             }
 
-            var user = await _userManager.FindByIdAsync(model.UserId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.UserName = model.Username;
-            user.NormalizedUserName = _userManager.NormalizeName(model.Username);
-            user.Email = model.Email;
-            user.NormalizedEmail = _userManager.NormalizeEmail(model.Email);
-            user.PhoneNumber = model.PhoneNumber;
-
-
-            var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.Id == user.Id);
-
-            if (profile != null)
-            {
-                profile.AvatarUrl = model.AvatarUrl;
-                profile.LocationText = model.LocationText;
-                profile.Bio = model.Bio;
-
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Profile");
+            return View(model);
         }
     }
 }

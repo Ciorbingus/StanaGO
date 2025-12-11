@@ -1,0 +1,80 @@
+﻿@model StanaGO.Models.Product
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var imgSrc = string.IsNullOrEmpty(Model.ImagePath)
+        ? "https://via.placeholder.com/600x400?text=Fara+Poza"
+        : $"/images/products/{Model.ImagePath}";
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isOwner = (currentUserId == Model.Farm.OwnerId);
+}
+
+<div class="container mt-5">
+
+    <div class="mb-3">
+        <a href="javascript:history.back()" class="text-decoration-none text-secondary">
+            <i class="bi bi-arrow-left"></i> Înapoi
+        </a>
+    </div>
+
+    <div class="card shadow border-0 overflow-hidden">
+        <div class="row g-0">
+            <div class="col-md-6 bg-light d-flex align-items-center justify-content-center">
+                <img src="@imgSrc" class="img-fluid" style="max-height: 500px; width: 100%; object-fit: cover;" alt="@Model.Name">
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body p-5 d-flex flex-column h-100">
+
+                    <div>
+                        <div class="badge bg-secondary mb-2">@Model.Farm.Name</div>
+                        <h1 class="fw-bold mb-3">@Model.Name</h1>
+
+                        <h2 class="text-success mb-4">
+                            @Model.Price RON
+                        </h2>
+
+                        <hr>
+
+                        <h5 class="fw-bold">Descriere</h5>
+                        <p class="text-muted">
+                            @(Model.Description ?? "Ciobanul nu a adăugat o descriere detaliată, dar produsul este natural și proaspăt.")
+                        </p>
+                    </div>
+
+                    <div class="mt-auto pt-4">
+                        @if (isOwner)
+                        {
+                            <div class="d-grid gap-2">
+                                <a asp-controller="Shepherd" asp-action="EditProduct" asp-route-id="@Model.Id" class="btn btn-success btn-lg shadow-sm">
+                                    Modifica Detalii
+                                </a>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+                                    Sterge Produs
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-grid gap-2">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+                                    Cumpără Acum
+                                </a>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+                                    Trimite Mesaj Ciobanului
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StanaGO.Data;
 using StanaGO.Models;
+using StanaGO.ViewModels;
 
 
 namespace StanaGO.Controllers
@@ -27,10 +28,7 @@ namespace StanaGO.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            var farms = await _context.Sheepfarms
-                              .Include(f => f.Products) 
-                              .Where(f => f.OwnerId == userId)
-                              .ToListAsync();
+            var farms = await _context.Sheepfarms.Include(f => f.Products) .Where(f => f.OwnerId == userId).ToListAsync();
 
             return View(farms);
         }
@@ -63,7 +61,7 @@ namespace StanaGO.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Sheepfarm(int id)
         {
             var farm = await _context.Sheepfarms
                 .Include(f => f.Products) 
@@ -120,10 +118,96 @@ namespace StanaGO.Controllers
 
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Details), new { id = product.FarmId });
+                return RedirectToAction(nameof(Sheepfarm), new { id = product.FarmId });
             }
             return View(product);
+        }
+
+        [HttpGet]
+        [AllowAnonymous] 
+        public async Task<IActionResult> Product(int id)
+        {
+            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
+            if (product == null) return NotFound();
+
+            return View(product);
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+
+            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null) return NotFound();
+
+            if (product.Farm.OwnerId != currentUserId)
+            {
+                return Unauthorized(); 
+            }
+
+            var model = new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Status = product.Status,
+                CurrentImagePath = product.ImagePath
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProduct(ProductViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            var product = await _context.Products
+                                        .Include(p => p.Farm)
+                                        .FirstOrDefaultAsync(p => p.Id == model.Id);
+
+            if (product == null) return NotFound();
+
+            if (product.Farm.OwnerId != currentUserId) return Unauthorized();
+
+            product.Name = model.Name;
+            product.Price = model.Price;
+            product.Description = model.Description;
+            product.Status = model.Status;
+
+            if (model.NewImage != null)
+            {
+                string folderPath = Path.Combine(_hostEnvironment.WebRootPath, "images", "products");
+                if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+                if (!string.IsNullOrEmpty(product.ImagePath))
+                {
+                    string oldPath = Path.Combine(folderPath, product.ImagePath);
+                    if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.NewImage.FileName;
+                string filePath = Path.Combine(folderPath, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.NewImage.CopyToAsync(fileStream);
+                }
+
+                product.ImagePath = uniqueFileName;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Product", new { id = product.Id });
         }
 
     }

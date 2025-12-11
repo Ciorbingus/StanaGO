@@ -22,10 +22,12 @@
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>             @* Script harta *@
+@section Scripts 
+{
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         var romaniaBounds = [ [43.5, 20.2], [48.7, 29.7] ];
+        var minZoomForMarkers = 10; 
 
         var sheepIcon = L.icon({
             iconUrl: '/images/icons/sheepfarmIcon.png',
@@ -34,100 +36,149 @@
             popupAnchor: [0, -40]
         });
 
-        var map = L.map('map', {
+        var map = L.map('map', 
+        {
             center: [45.9, 24.7],
             zoom: 7,
             minZoom: 6,
             maxZoom: 16,
             maxBounds: romaniaBounds,
-            maxBoundsViscosity: 0.9
+            maxBoundsViscosity: 0.9,
+            preferCanvas: true
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+        {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
         var userMarker = null;
         var radiusCircle = null;
+
+        var markersLayer = L.layerGroup();
         var dataLoaded = false;
 
-        if (navigator.geolocation)
+        map.on('zoomend', function() 
         {
-            navigator.geolocation.getCurrentPosition(
-                function(position)
-                {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
+            checkZoomLevel();
+        });
 
-                    map.setView([lat, lon], 11);
-
-                    if (!userMarker) {
-                        userMarker = L.marker([lat, lon]).addTo(map).bindPopup("<b>Ești aici!</b>").openPopup();
-                    } else {
-                        userMarker.setLatLng([lat, lon]);
-                    }
-
-                    if (!radiusCircle) {
-                        radiusCircle = L.circle([lat, lon], {
-                            color: '#0d6efd',
-                            fillColor: '#0d6efd',
-                            fillOpacity: 0.1,
-                            radius: 30000
-                        }).addTo(map);
-                    }
-
-                    if (!dataLoaded) {
-                        loadNearbyData(lat, lon);
-                        dataLoaded = true;
-                    }
-                },
-                function(error)
-                {
-                    console.error("Eroare locație: ", error);
-                    document.getElementById('products-container').innerHTML =
-                        '<div class="alert alert-danger">Trebuie să permiți localizarea pentru a vedea ofertele din jur.</div>';
-                },
-                { enableHighAccuracy: true }
-            );
-        }
-        else
+        function checkZoomLevel() 
         {
-            alert("Browser-ul tău nu suportă geolocation.");
+            var currentZoom = map.getZoom();
+
+            if (currentZoom >= minZoomForMarkers) 
+            {
+                if (!map.hasLayer(markersLayer)) 
+                {
+                    map.addLayer(markersLayer);
+                }
+            } 
+            else 
+            {
+                if (map.hasLayer(markersLayer)) 
+                {
+                    map.removeLayer(markersLayer);
+                }
+            }
         }
 
-        function loadNearbyData(lat, lng) {                                     @* Script functie incarcare date din apropriere *@
+        if (navigator.geolocation) 
+        {
+            var geoOptions = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 60000
+            };
+            navigator.geolocation.getCurrentPosition(successPosition, errorPosition, geoOptions);
+        } 
+        else 
+        {
+            document.getElementById('products-container').innerHTML =
+                '<div class="col-12 text-center text-danger">Browserul tău nu suportă localizarea.</div>';
+        }
+
+        function successPosition(position) 
+        {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            map.setView([lat, lon], 11);
+
+            if (!userMarker) 
+            {
+                userMarker = L.marker([lat, lon]).addTo(map).bindPopup("<b>Ești aici!</b>").openPopup();
+            }
+
+            if (!radiusCircle)
+            {
+                radiusCircle = L.circle([lat, lon], 
+                {
+                    color: '#0d6efd',
+                    fillColor: '#0d6efd',
+                    fillOpacity: 0.1,
+                    radius: 20000
+                }).addTo(map);
+            }
+
+            if (!dataLoaded) 
+            {
+                loadNearbyData(lat, lon);
+                dataLoaded = true;
+            }
+        }
+
+        function errorPosition(error) 
+        {
+            console.error("Eroare locație: ", error);
+            document.getElementById('products-container').innerHTML =
+                `<div class="col-12 text-center alert alert-warning">
+                    Nu te-am putut localiza automat. Harta rămâne centrată pe România.
+                 </div>`;
+        }
+
+        function loadNearbyData(lat, lng)                     @* Script functie incarcare date din apropriere *@
+        {
             fetch(`/Home/GetNearbyData?lat=${lat}&lng=${lng}`)
                 .then(response => response.json())
                 .then(data => {
 
-                    data.farms.forEach(farm => {
-                        L.marker([farm.latitude, farm.longitude], {icon: sheepIcon})
-                            .addTo(map)
+                    markersLayer.clearLayers();
+
+                    data.farms.forEach(farm => 
+                    {
+                        var marker = L.marker([farm.latitude, farm.longitude], {icon: sheepIcon})
                             .bindPopup(`
                                 <div style="text-align:center;">
                                     <h6 style="margin:0;">${farm.name}</h6>
                                     <small>${farm.address}</small>
                                 </div>
                             `);
+                        markersLayer.addLayer(marker);
                     });
+
+                    checkZoomLevel();
 
                     renderProducts(data.products);
                 })
                 .catch(err => {
                     console.error(err);
-                    document.getElementById('products-container').innerHTML = '<p class="text-danger">Eroare la încărcarea datelor.</p>';
+                    document.getElementById('products-container').innerHTML =
+                        '<div class="col-12 text-center text-danger">A apărut o eroare la încărcarea ofertelor.</div>';
                 });
         }
 
-        function renderProducts(products) {                                               @* Script functie incarcare produse din apropriere *@
+        function renderProducts(products)                @* Script functie incarcare produse din apropriere *@
+        {
             var container = document.getElementById('products-container');
 
-            if (products.length === 0) {
+            if (products.length === 0) 
+            {
                 container.innerHTML = `
                     <div class="col-12">
-                        <div class="alert alert-warning text-center">
-                            <h4>Nicio stână găsită în apropriere.</h4>
-                            <p>Încearcă să cauți în alte zone sau revino mai târziu!</p>
+                        <div class="alert alert-warning text-center shadow-sm">
+                            <h4>Nicio stână găsită în apropiere.</h4>
+                            <p class="mb-0">Încearcă să cauți în alte zone!</p>
                         </div>
                     </div>`;
                 return;
@@ -142,7 +193,10 @@
                     <div class="col-md-3 mb-4">
                         <div class="card h-100 shadow-sm border-0 hover-effect">
                             <div style="position: relative;">
-                                <img src="${imgUrl}" class="card-img-top" style="height: 180px; object-fit: cover; border-radius: 5px 5px 0 0;">
+                                <img src="${imgUrl}" class="card-img-top"
+                                     loading="lazy"
+                                     style="height: 180px; object-fit: cover; border-radius: 5px 5px 0 0;">
+
                                 <span class="badge nav-bg-color text-white" style="position: absolute; top: 10px; right: 10px;">
                                     ${prod.price} RON
                                 </span>
@@ -150,18 +204,17 @@
                             <div class="card-body">
                                 <h5 class="card-title text-truncate" title="${prod.name}">${prod.name}</h5>
                                 <p class="card-text text-muted small mb-2">
-                                    📍 <strong>${prod.farmName}</strong> <br/>
+                                    <strong>${prod.farmName}</strong> <br/>
                                     <span class="text-info">Distanță: ${prod.distance}</span>
                                 </p>
                                 <div class="d-grid">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">Vezi Detalii</a>
+                                   <a href="/Shepherd/Product/${prod.id}" class="stretched-link"></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
-
-                allHtml += cardHtml; 
+                allHtml += cardHtml;
             });
 
             container.innerHTML = allHtml;

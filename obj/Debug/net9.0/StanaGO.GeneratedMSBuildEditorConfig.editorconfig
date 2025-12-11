@@ -15,87 +15,101 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = StanaGO
 build_property.RootNamespace = StanaGO
-build_property.ProjectDir = D:\IS\StanaGO\StanaGO\
+build_property.ProjectDir = A:\Coding\StanaGO\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\IS\StanaGO\StanaGO
+build_property.MSBuildProjectDirectory = A:\Coding\StanaGO
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/IS/StanaGO/StanaGO/Views/Account/BecomeShepherd.cshtml]
+[A:/Coding/StanaGO/Views/Account/BecomeShepherd.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxCZWNvbWVTaGVwaGVyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Account/EditProfile.cshtml]
+[A:/Coding/StanaGO/Views/Account/EditProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Account/Login.cshtml]
+[A:/Coding/StanaGO/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Account/Profile.cshtml]
+[A:/Coding/StanaGO/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Account/Register.cshtml]
+[A:/Coding/StanaGO/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Home/Index.cshtml]
+[A:/Coding/StanaGO/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Home/Privacy.cshtml]
+[A:/Coding/StanaGO/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Home/Welcome.cshtml]
+[A:/Coding/StanaGO/Views/Home/Welcome.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxXZWxjb21lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shared/Error.cshtml]
+[A:/Coding/StanaGO/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shared/_ValidationScriptsPartial.cshtml]
+[A:/Coding/StanaGO/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shepherd/AddProduct.cshtml]
+[A:/Coding/StanaGO/Views/Shepherd/AddProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcQWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shepherd/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRGV0YWlscy5jc2h0bWw=
+[A:/Coding/StanaGO/Views/Shepherd/EditProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRWRpdFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shepherd/RegisterFarm.cshtml]
+[A:/Coding/StanaGO/Views/Shepherd/EditSheepfarm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRWRpdFNoZWVwZmFybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/Product.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/RegisterFarm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcUmVnaXN0ZXJGYXJtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shepherd/ReportThreat.cshtml]
+[A:/Coding/StanaGO/Views/Shepherd/ReportThreat.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcUmVwb3J0VGhyZWF0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shepherd/YourFarms.cshtml]
+[A:/Coding/StanaGO/Views/Shepherd/Sheepfarm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcU2hlZXBmYXJtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/YourFarms.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcWW91ckZhcm1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/_ViewImports.cshtml]
+[A:/Coding/StanaGO/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/_ViewStart.cshtml]
+[A:/Coding/StanaGO/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/IS/StanaGO/StanaGO/Views/Shared/_Layout.cshtml]
+[A:/Coding/StanaGO/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6ngrhwlakm

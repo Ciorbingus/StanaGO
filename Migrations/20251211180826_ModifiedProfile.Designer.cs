@@ -12,8 +12,8 @@ using StanaGO.Data;
 namespace StanaGO.Migrations
 {
     [DbContext(typeof(StanaGOContext))]
-    [Migration("20251130181229_SyncModels")]
-    partial class SyncModels
+    [Migration("20251211180826_ModifiedProfile")]
+    partial class ModifiedProfile
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -304,23 +304,29 @@ namespace StanaGO.Migrations
             modelBuilder.Entity("StanaGO.Models.Profile", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AvatarUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LocationText")
+                    b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImagePath")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -665,7 +671,7 @@ namespace StanaGO.Migrations
             modelBuilder.Entity("StanaGO.Models.Profile", b =>
                 {
                     b.HasOne("StanaGO.Models.User", "User")
-                        .WithOne()
+                        .WithOne("UserProfile")
                         .HasForeignKey("StanaGO.Models.Profile", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -720,6 +726,8 @@ namespace StanaGO.Migrations
             modelBuilder.Entity("StanaGO.Models.User", b =>
                 {
                     b.Navigation("Notifications");
+
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("StanaGO.Models.Moderator", b =>
