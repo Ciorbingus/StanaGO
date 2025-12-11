@@ -298,6 +298,32 @@ namespace StanaGO.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("StanaGO.Models.Profile", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AvatarUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LocationText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profiles");
+                });
+
             modelBuilder.Entity("StanaGO.Models.Report", b =>
                 {
                     b.Property<int>("Id")
@@ -631,6 +657,17 @@ namespace StanaGO.Migrations
                         .IsRequired();
 
                     b.Navigation("Farm");
+                });
+
+            modelBuilder.Entity("StanaGO.Models.Profile", b =>
+                {
+                    b.HasOne("StanaGO.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("StanaGO.Models.Profile", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StanaGO.Models.Report", b =>

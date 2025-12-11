@@ -335,6 +335,30 @@ namespace StanaGO.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationText = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.Id);
+                    table.ForeignKey(
+                            name: "FK_Profiles_AspNetUsers_Id",
+                            column: x => x.Id,
+                            principalTable: "AspNetUsers",
+                            principalColumn: "Id",
+                            onDelete: ReferentialAction.Cascade
+                        );
+                }
+
+                );
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
