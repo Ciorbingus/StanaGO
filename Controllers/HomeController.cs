@@ -27,9 +27,7 @@ namespace StanaGO.Controllers
         [HttpGet]
         public async Task<IActionResult> GetNearbyData(double lat, double lng)
         {
-            var allFarms = await _context.Sheepfarms
-                                         .Include(f => f.Products)
-                                         .ToListAsync();
+            var allFarms = await _context.Sheepfarms.Include(f => f.Products).ToListAsync();
 
             var nearbyProducts = new List<object>();
 
@@ -56,7 +54,7 @@ namespace StanaGO.Controllers
 
             return Json(new
             {
-                farms = allFarms.Select(f => new { f.Name, f.Latitude, f.Longitude, f.Address }),
+                farms = allFarms.Select(f => new { Id = f.Id, f.Name, f.Latitude, f.Longitude, f.Address }),
                 products = nearbyProducts
             });
         }

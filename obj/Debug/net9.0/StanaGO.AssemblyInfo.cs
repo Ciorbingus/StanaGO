@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StanaGO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9f1c27c217a7f202804b8efd722fbd88036da8e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b7125ec7cc42111bf1d6af45e310f6f73743152a")]
 [assembly: System.Reflection.AssemblyProductAttribute("StanaGO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StanaGO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

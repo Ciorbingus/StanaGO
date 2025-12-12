@@ -1,4 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    var currentUserId = UserManager.GetUserId(User);
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +49,7 @@
                         {
                             <li class="nav-item dropdown me-2">
                                 <a class="nav-link text-light dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    🔔 Notificări
+                                    Notificări
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="notificationDropdown" data-bs-theme="dark">
                                     <li><a class="dropdown-item disabled text-white" href="#">(Nu ai notificari noi)</a></li>
@@ -50,43 +57,50 @@
                             </li>
 
                             <li class="nav-item dropdown nav-bg-color">                     @* meniu dropdown *@
+                                @{
+                                    var currUser = await UserManager.GetUserAsync(User);
+                                    var displayName = currUser != null ? $"{currUser.FirstName}" : User.Identity.Name;
+                                }
                                 <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Salut, @User.Identity.Name! ☰
+
+                                    Salut, @displayName! ☰
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 400px">
-                                    <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="Profile">👤Profilul tău</a></li>
+                                    <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="Profile" asp-route-id="@currentUserId">Profilul tău</a></li>
 
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">💬 Mesaje</a></li>
+                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Mesaje</a></li>
 
-                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🛒 Comenzi</a></li>
+                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Comenzi</a></li>
 
                                     @if ( User.IsInRole ("Casual") )
                                     {
-                                        <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="BecomeShepherd">🐑 Devino cioban!</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="BecomeShepherd">Devino cioban!</a></li>
                                     }
 
                                     @if ( User.IsInRole ("Shepherd") )
                                     {
-                                        <li><a class="dropdown-item text-white" asp-controller="Shepherd" asp-action="YourFarms">🏡 Stânele tale</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Shepherd" asp-action="YourFarms">Stânele tale</a></li>
 
-                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🤝 Clienti</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Clienti</a></li>
 
-                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">⚠️ Amenintari</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Amenintari</a></li>
                                     }
 
                                     @if ( User.IsInRole ("Moderator") )
                                     {
-                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">🚨 Reclamatii</a></li
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Reclamatii</a></li
 
-                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">📝 Jurnal</a></li>
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Panou de Comanda</a></li
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Jurnal</a></li>
                                     }
 
                                     <li><hr class="dropdown-divider"></li>
 
                                     <li style="position: absolute; bottom: 0; left: 0; width: 100%; padding-bottom: 5px;">
                                         <form asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item p-0">
-                                            <button type="submit" class="btn btn-link text-white w-100 text-start ps-3">⏻ Logout</button>
+                                            <button type="submit" class="btn btn-link text-white w-100 text-start ps-3">Logout</button>
                                         </form>
                                     </li>
 

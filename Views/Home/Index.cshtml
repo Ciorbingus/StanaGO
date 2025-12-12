@@ -145,17 +145,23 @@
 
                     markersLayer.clearLayers();
 
-                    data.farms.forEach(farm => 
-                    {
+                    data.farms.forEach(farm => {
+
                         var marker = L.marker([farm.latitude, farm.longitude], {icon: sheepIcon})
                             .bindPopup(`
-                                <div style="text-align:center;">
-                                    <h6 style="margin:0;">${farm.name}</h6>
-                                    <small>${farm.address}</small>
+                                <div style="text-align:center; min-width: 150px;">
+                                    <h6 style="margin-bottom:5px; font-weight:bold;">${farm.name}</h6>
+                                        <p style="font-size:0.9em; color:#666; margin-bottom:10px;">
+                                             ${farm.address}
+                                       </p>
+
+                                    <a href="/Shepherd/Sheepfarm/${farm.id}" class="btn btn-sm btn-primary text-white w-100">
+                                        Vezi Stâna
+                                   </a>
                                 </div>
-                            `);
-                        markersLayer.addLayer(marker);
-                    });
+                `       );
+            markersLayer.addLayer(marker);
+        });
 
                     checkZoomLevel();
 

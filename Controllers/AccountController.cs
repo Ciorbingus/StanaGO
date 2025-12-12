@@ -220,23 +220,36 @@ namespace StanaGO.Controllers
             return View(model);
         }
 
-
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string? id)
         {
-            var userId = _userManager.GetUserId(User);
+            var currentLoggedUserId = _userManager.GetUserId(User);
 
-            var user = await _context.Users.Include(u => u.UserProfile).FirstOrDefaultAsync(u => u.Id == userId);
+            var targetUserId = id ?? currentLoggedUserId;
 
-            if (user == null) return RedirectToAction("Login");
+            var user = await _context.Users.Include(u => u.UserProfile).FirstOrDefaultAsync(u => u.Id == targetUserId);
 
-            if (user.UserProfile == null) return RedirectToAction(nameof(EditProfile));
+            if (user == null) return NotFound();
+
+            if (user.UserProfile == null)
+            {
+                if (targetUserId == currentLoggedUserId)
+                {
+                    return RedirectToAction(nameof(EditProfile));
+                }
+
+                return RedirectToAction("Login");
+            }
 
             var roles = await _userManager.GetRolesAsync(user);
-            ViewData["UserRole"] = roles.FirstOrDefault() ?? "Casual"; 
+            ViewData["UserRole"] = roles.FirstOrDefault() ?? "Casual";
 
             ViewData["UserPhone"] = user.PhoneNumber;
+
+            var userProducts = await _context.Products.Include(p => p.Farm).Where(p => p.Farm.OwnerId == targetUserId).OrderByDescending(p => p.Id).ToListAsync();
+
+            ViewData["UserProducts"] = userProducts;
 
             return View(user.UserProfile);
         }

@@ -61,16 +61,12 @@ namespace StanaGO.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Sheepfarm(int id)
         {
-            var farm = await _context.Sheepfarms
-                .Include(f => f.Products) 
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var farm = await _context.Sheepfarms.Include(f => f.Products) .FirstOrDefaultAsync(m => m.Id == id);
 
             if (farm == null) return NotFound();
-
-            var userId = _userManager.GetUserId(User);
-            if (farm.OwnerId != userId) return Forbid();
 
             return View(farm);
         }
@@ -127,7 +123,7 @@ namespace StanaGO.Controllers
         [AllowAnonymous] 
         public async Task<IActionResult> Product(int id)
         {
-            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.Include(p => p.Farm).ThenInclude(f => f.Owner).FirstOrDefaultAsync(p => p.Id == id);
             if (product == null) return NotFound();
 
             return View(product);
@@ -208,6 +204,52 @@ namespace StanaGO.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Product", new { id = product.Id });
+        }
+
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var farm = await _context.Sheepfarms.FirstOrDefaultAsync(f => f.Id == id);
+
+            if (farm == null) return NotFound();
+            if (farm.OwnerId != currentUserId) return Unauthorized();
+
+            var model = new SheepFarmViewModel
+            {
+                Id = farm.Id,
+                Name = farm.Name,
+                Address = farm.Address,
+                Latitude = farm.Latitude,
+                Longitude = farm.Longitude
+            };
+
+            return View("EditSheepfarm", model); 
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(SheepFarmViewModel model)
+        {
+            if (!ModelState.IsValid) return View("EditSheepfarm", model);
+
+            var currentUserId = _userManager.GetUserId(User);
+            var farm = await _context.Sheepfarms.FirstOrDefaultAsync(f => f.Id == model.Id);
+
+            if (farm == null) return NotFound();
+            if (farm.OwnerId != currentUserId) return Unauthorized();
+
+            farm.Name = model.Name;
+            farm.Address = model.Address;
+            farm.Latitude = model.Latitude;
+            farm.Longitude = model.Longitude;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Sheepfarm", new { id = farm.Id });
         }
 
     }

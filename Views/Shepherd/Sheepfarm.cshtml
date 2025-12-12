@@ -11,73 +11,80 @@
     var isOwner = (currentUserId == Model.OwnerId);
 }
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card bg-light border-0">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="display-6">@Model.Name</h1>
-                        <p class="text-muted mb-0">@Model.Address</p>
-                    </div>
-                    <div>
+
+    <div class="card shadow-sm border-0 mb-5 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <div class="col-md-7 mb-3 mb-md-0">
+                    <h1 class="display-6 fw-bold">@Model.Name</h1>
+                    <p class="text-muted lead mb-4">
+                        <i class="bi bi-geo-alt-fill"></i> @Model.Address
+                    </p>
+
+                    <div class="d-flex gap-2 flex-wrap">
                         @if (isOwner)
                         {
-                            <a asp-action="Home" asp-action="Index" class="btn nav-bg-color btn-lg shadow text-white">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary shadow-sm">
                                 Modifica Detalii
                             </a>
-                            <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color btn-lg shadow text-white">
+                            <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color text-white shadow-sm">
                                 Adaugă Produs
                             </a>
                         }
                     </div>
                 </div>
+
+                <div class="col-md-5">
+                    <div id="farmMap" class="rounded shadow-sm border" style="height: 350px; width: 150%;"></div>
+                </div>
+
             </div>
         </div>
+    </div>
 
-        <div class="col-md-12">
-            <h4 class="mb-3">Produse disponibile</h4>
+    <div class="col-md-12">
+        <h4 class="mb-3 border-bottom pb-2">Produse disponibile</h4>
 
-            @if (Model.Products == null || !Model.Products.Any())
-            {
-                <div class="alert alert-warning text-center p-5">
-                    <h4>Încă nu ai adăugat produse.</h4>
-                    <p>Adaugă brânză, lână sau alte bunătăți pentru a le vinde!</p>
-                </div>
-            }
-            else
-            {
-                <div class="row">
-                    @foreach (var prod in Model.Products)
-                    {
-                        <div class="col-md-3 mb-4">
-                            <div class="card h-100 shadow-sm position-relative hover-effect">
+        @if (Model.Products == null || !Model.Products.Any())
+        {
+            <div class="alert alert-warning text-center p-5">
+                <h4>Încă nu ai adăugat produse.</h4>
+                <p>Adaugă brânză, lână sau alte bunătăți pentru a le vinde!</p>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var prod in Model.Products)
+                {
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 shadow-sm position-relative hover-effect">
+                            @if (!string.IsNullOrEmpty(prod.ImagePath))
+                            {
+                                <img src="~/images/products/@prod.ImagePath" class="card-img-top" alt="@prod.Name" style="height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">Fără Poză</div>
+                            }
 
-                                @if (!string.IsNullOrEmpty(prod.ImagePath))
-                                {
-                                    <img src="~/images/products/@prod.ImagePath" class="card-img-top" alt="@prod.Name" style="height: 200px; object-fit: cover;">
-                                }
-                                else
-                                {
-                                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">Fără Poză</div>
-                                }
-
-                                <div class="card-body">
-                                    <h5 class="card-title">@prod.Name</h5>
-                                    <p class="card-text small text-muted">@prod.Description</p>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <span class="badge nav-bg-color text-white">@prod.Price RON</span>
-                                        <span class="text-muted small">@prod.Status</span>
-                                    </div>
-
-                                    <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
+                            <div class="card-body">
+                                <h5 class="card-title">@prod.Name</h5>
+                                <p class="card-text small text-muted">@prod.Description</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="badge nav-bg-color text-white">@prod.Price RON</span>
+                                    <span class="text-muted small">@prod.Status</span>
                                 </div>
+                                <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
                             </div>
                         </div>
-                    }
-                </div>
-            }
-        </div>
+                    </div>
+                }
+            </div>
+        }
     </div>
 
     @if (isOwner)
@@ -104,3 +111,57 @@
             cursor: pointer;
         }
 </style>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var farmLat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var farmLon = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        var romaniaBounds = [ [43.5, 20.2], [48.7, 29.7] ];
+
+
+        var map = L.map('farmMap', {
+            center: [farmLat, farmLon],
+            zoom: 7,
+            minZoom: 6,
+            maxZoom: 30,
+            maxBounds: romaniaBounds,
+            scrollWheelZoom: true
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var sheepIcon = L.icon({
+            iconUrl: '/images/icons/sheepfarmIcon.png',
+            iconSize: [35, 35],
+            iconAnchor: [17, 35],
+            popupAnchor: [0, -35]
+        });
+
+        L.marker([farmLat, farmLon], {icon: sheepIcon})
+         .addTo(map)
+         .bindPopup("<b>@Model.Name</b>")
+         .openPopup();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLat = position.coords.latitude;
+                var userLon = position.coords.longitude;
+
+                L.circleMarker([userLat, userLon], {
+                    radius: 8,
+                    fillColor: "#0d6efd",
+                    color: "#fff",
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map).bindPopup("Tu ești aici");
+
+            }, function(error) {
+            });
+        }
+    </script>
+}
