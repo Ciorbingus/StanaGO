@@ -9,6 +9,7 @@
 
     var currentUserId = UserManager.GetUserId(User);
     var isOwner = (currentUserId == Model.OwnerId);
+    var isModerator = User.IsInRole("Moderator");
 }
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -18,27 +19,36 @@
     <div class="card shadow-sm border-0 mb-5 overflow-hidden">
         <div class="card-body p-0">
             <div class="row g-0">
-                <div class="col-md-7 mb-3 mb-md-0">
+                <div class="col-md-7 mb-3 mb-md-0 p-4 d-flex flex-column justify-content-center">
                     <h1 class="display-6 fw-bold">@Model.Name</h1>
                     <p class="text-muted lead mb-4">
                         <i class="bi bi-geo-alt-fill"></i> @Model.Address
                     </p>
 
                     <div class="d-flex gap-2 flex-wrap">
-                        @if (isOwner)
+                        @if (isOwner || isModerator)
                         {
                             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary shadow-sm">
                                 Modifica Detalii
                             </a>
-                            <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color text-white shadow-sm">
-                                Adaugă Produs
-                            </a>
+                         
+                            @if (isOwner)
+                            {
+                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color text-white shadow-sm">
+                                    Adaugă Produs
+                                </a>
+                            }
+
+                            <button type="button" class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteFarmModal">
+                                Sterge Stana
+                            </button>
                         }
+
                     </div>
                 </div>
 
                 <div class="col-md-5">
-                    <div id="farmMap" class="rounded shadow-sm border" style="height: 350px; width: 150%;"></div>
+                    <div id="farmMap" class="rounded shadow-sm border" style="height: 350px; width: 100%;"></div>
                 </div>
 
             </div>
@@ -101,6 +111,43 @@
     }
 </div>
 
+@if (isOwner || isModerator)
+{
+    <div class="modal fade" id="deleteFarmModal" tabindex="-1" aria-labelledby="deleteFarmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteFarmModalLabel">Confirmare Stergere Stana</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-4">
+                    <p class="lead text-center mb-4">Esti sigur ca vrei sa stergi stana <br> <strong>"@Model.Name"</strong>?</p>
+
+                    <div class="alert alert-light border border-danger">
+                        <strong class="text-danger">Atentie!</strong>
+                        <ul class="mb-0 small text-muted">
+                            <li>Aceasta actiune este ireversibila.</li>
+                            <li>Toate cele <strong>@((Model.Products?.Count) ?? 0)</strong> produse asociate vor fi sterse.</li>
+                            <li>Locatia va disparea de pe harta.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Nu, Anuleaza</button>
+
+                    <form asp-controller="Shepherd" asp-action="DeleteFarm" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-danger px-4">Da, Sterge Tot</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
 <style>
     .hover-effect {
         transition: transform 0.2s;
@@ -120,12 +167,11 @@
 
         var romaniaBounds = [ [43.5, 20.2], [48.7, 29.7] ];
 
-
         var map = L.map('farmMap', {
             center: [farmLat, farmLon],
-            zoom: 7,
+            zoom: 13,
             minZoom: 6,
-            maxZoom: 30,
+            maxZoom: 18,
             maxBounds: romaniaBounds,
             scrollWheelZoom: true
         });
@@ -142,9 +188,9 @@
         });
 
         L.marker([farmLat, farmLon], {icon: sheepIcon})
-         .addTo(map)
-         .bindPopup("<b>@Model.Name</b>")
-         .openPopup();
+          .addTo(map)
+          .bindPopup("<b>@Model.Name</b>")
+          .openPopup();
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -158,7 +204,7 @@
                     weight: 2,
                     opacity: 1,
                     fillOpacity: 0.8
-                }).addTo(map).bindPopup("Tu ești aici");
+                }).addTo(map).bindPopup("Tu esti aici");
 
             }, function(error) {
             });

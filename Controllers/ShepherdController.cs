@@ -8,9 +8,7 @@ using StanaGO.ViewModels;
 
 
 namespace StanaGO.Controllers
-{
-    [Authorize(Roles = "Shepherd")] 
-    public class ShepherdController : Controller
+{    public class ShepherdController : Controller
     {
         private readonly StanaGOContext _context;
         private readonly UserManager<User> _userManager;
@@ -129,17 +127,18 @@ namespace StanaGO.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "Shepherd")]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> EditProduct(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
 
             var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null) return NotFound();
 
-            if (product.Farm.OwnerId != currentUserId)
+            if (product.Farm.OwnerId != currentUserId && !isModerator)
             {
                 return Unauthorized(); 
             }
@@ -157,7 +156,7 @@ namespace StanaGO.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Shepherd")]
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProduct(ProductViewModel model)
@@ -165,14 +164,13 @@ namespace StanaGO.Controllers
             if (!ModelState.IsValid) return View(model);
 
             var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
 
-            var product = await _context.Products
-                                        .Include(p => p.Farm)
-                                        .FirstOrDefaultAsync(p => p.Id == model.Id);
+            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == model.Id);
 
             if (product == null) return NotFound();
 
-            if (product.Farm.OwnerId != currentUserId) return Unauthorized();
+            if (product.Farm.OwnerId != currentUserId && !isModerator) return Unauthorized();
 
             product.Name = model.Name;
             product.Price = model.Price;
@@ -207,15 +205,17 @@ namespace StanaGO.Controllers
         }
 
 
-        [Authorize(Roles = "Shepherd")]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
             var farm = await _context.Sheepfarms.FirstOrDefaultAsync(f => f.Id == id);
 
             if (farm == null) return NotFound();
-            if (farm.OwnerId != currentUserId) return Unauthorized();
+            if (farm.OwnerId != currentUserId && !isModerator) return Unauthorized();
 
             var model = new SheepFarmViewModel
             {
@@ -229,7 +229,7 @@ namespace StanaGO.Controllers
             return View("EditSheepfarm", model); 
         }
 
-        [Authorize(Roles = "Shepherd")]
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SheepFarmViewModel model)
@@ -237,10 +237,12 @@ namespace StanaGO.Controllers
             if (!ModelState.IsValid) return View("EditSheepfarm", model);
 
             var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
             var farm = await _context.Sheepfarms.FirstOrDefaultAsync(f => f.Id == model.Id);
 
             if (farm == null) return NotFound();
-            if (farm.OwnerId != currentUserId) return Unauthorized();
+            if (farm.OwnerId != currentUserId && !isModerator) return Unauthorized();
 
             farm.Name = model.Name;
             farm.Address = model.Address;
@@ -250,6 +252,127 @@ namespace StanaGO.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Sheepfarm", new { id = farm.Id });
+        }
+
+        [HttpGet]
+        [AllowAnonymous] 
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+            var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
+            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null) return NotFound();
+
+            if (product.Farm.OwnerId != currentUserId && !isModerator)
+            {
+                return Forbid();
+            }
+
+            return View(product);
+        }
+
+        [HttpPost, ActionName("DeleteProduct")]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous] 
+        public async Task<IActionResult> DeleteProductConfirmed(int id)
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+            var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
+            var product = await _context.Products.Include(p => p.Farm).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null) return NotFound();
+
+            if (product.Farm.OwnerId != currentUserId && !isModerator)
+            {
+                return Forbid();
+            }
+
+            if (!string.IsNullOrEmpty(product.ImagePath))
+            {
+                string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "products", product.ImagePath);
+                if (System.IO.File.Exists(filePath))
+                {
+                    try { System.IO.File.Delete(filePath); } catch { }
+                }
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Sheepfarm", new { id = product.FarmId });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteFarm(int id)
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+            var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
+            var farm = await _context.Sheepfarms.Include(f => f.Owner).Include(f => f.Products).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (farm == null) return NotFound();
+
+            if (farm.OwnerId != currentUserId && !isModerator)
+            {
+                return Forbid();
+            }
+
+            return View(farm);
+        }
+
+        [HttpPost, ActionName("DeleteFarm")]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
+            var currentUserId = _userManager.GetUserId(User);
+            var isModerator = User.IsInRole("Moderator");
+
+            var farm = await _context.Sheepfarms.Include(f => f.Products).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (farm == null) return NotFound();
+
+            if (farm.OwnerId != currentUserId && !isModerator)
+            {
+                return Forbid();
+            }
+
+            if (farm.Products != null)
+            {
+                foreach (var product in farm.Products)
+                {
+                    if (!string.IsNullOrEmpty(product.ImagePath))
+                    {
+                        string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "products", product.ImagePath);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            try { System.IO.File.Delete(filePath); } catch { }
+                        }
+                    }
+                }
+            }
+
+            _context.Sheepfarms.Remove(farm);
+            await _context.SaveChangesAsync();
+
+            if (isModerator)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction(nameof(YourFarms)); 
         }
 
     }
