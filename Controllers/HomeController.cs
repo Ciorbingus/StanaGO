@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StanaGO.Data;
@@ -46,7 +46,31 @@ namespace StanaGO.Controllers
                             Price = prod.Price,
                             Image = prod.ImagePath,
                             FarmName = farm.Name,
-                            Distance = (distance / 1000).ToString("0.0") + " km" 
+                            Distance = (distance / 1000).ToString("0.0") + " km"
+                        });
+                    }
+                }
+            }
+
+            var threatsList = new List<object>();
+
+            if (User.Identity.IsAuthenticated && User.IsInRole("Shepherd"))
+            {
+                var allThreats = await _context.Threats.Where(t => t.Status == StanaGO.Enums.ThreatStatus.Active).ToListAsync();
+
+                foreach (var t in allThreats)
+                {
+                    double distThreat = CalculateDistance(lat, lng, t.Latitude, t.Longitude);
+
+                    if (distThreat <= 20000)
+                    {
+                        threatsList.Add(new
+                        {
+                            id = t.Id,
+                            type = t.Type.ToString(),
+                            latitude = t.Latitude,
+                            longitude = t.Longitude,
+                            time = t.TimeReported.ToString("HH:mm, dd MMM")
                         });
                     }
                 }
@@ -55,7 +79,8 @@ namespace StanaGO.Controllers
             return Json(new
             {
                 farms = allFarms.Select(f => new { Id = f.Id, f.Name, f.Latitude, f.Longitude, f.Address }),
-                products = nearbyProducts
+                products = nearbyProducts,
+                threats = threatsList
             });
         }
 

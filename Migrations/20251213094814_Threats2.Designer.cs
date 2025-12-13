@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StanaGO.Data;
 
@@ -11,9 +12,11 @@ using StanaGO.Data;
 namespace StanaGO.Migrations
 {
     [DbContext(typeof(StanaGOContext))]
-    partial class StanaGOContextModelSnapshot : ModelSnapshot
+    [Migration("20251213094814_Threats2")]
+    partial class Threats2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -74,12 +74,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcQWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[A:/Coding/StanaGO/Views/Shepherd/AddThreat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcQWRkVGhyZWF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [A:/Coding/StanaGO/Views/Shepherd/EditProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRWRpdFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Coding/StanaGO/Views/Shepherd/EditSheepfarm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRWRpdFNoZWVwZmFybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/EditThreat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcRWRpdFRocmVhdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Coding/StanaGO/Views/Shepherd/Product.cshtml]
@@ -96,6 +104,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [A:/Coding/StanaGO/Views/Shepherd/Sheepfarm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcU2hlZXBmYXJtLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/Threat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcVGhyZWF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[A:/Coding/StanaGO/Views/Shepherd/Threats.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hlcGhlcmRcVGhyZWF0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [A:/Coding/StanaGO/Views/Shepherd/YourFarms.cshtml]

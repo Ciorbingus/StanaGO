@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StanaGO.Data;
+using StanaGO.Enums;
 using StanaGO.Models;
 using StanaGO.ViewModels;
+using System.Threading;
 
 
 namespace StanaGO.Controllers
@@ -26,7 +28,7 @@ namespace StanaGO.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            var farms = await _context.Sheepfarms.Include(f => f.Products) .Where(f => f.OwnerId == userId).ToListAsync();
+            var farms = await _context.Sheepfarms.Include(f => f.Products).Where(f => f.OwnerId == userId).ToListAsync();
 
             return View(farms);
         }
@@ -62,7 +64,7 @@ namespace StanaGO.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Sheepfarm(int id)
         {
-            var farm = await _context.Sheepfarms.Include(f => f.Products) .FirstOrDefaultAsync(m => m.Id == id);
+            var farm = await _context.Sheepfarms.Include(f => f.Products).FirstOrDefaultAsync(m => m.Id == id);
 
             if (farm == null) return NotFound();
 
@@ -373,6 +375,220 @@ namespace StanaGO.Controllers
             }
 
             return RedirectToAction(nameof(YourFarms)); 
+        }
+
+
+
+
+
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            var R = 6371e3; 
+            var phi1 = lat1 * Math.PI / 180;
+            var phi2 = lat2 * Math.PI / 180;
+            var deltaPhi = (lat2 - lat1) * Math.PI / 180;
+            var deltaLambda = (lon2 - lon1) * Math.PI / 180;
+
+            var a = Math.Sin(deltaPhi / 2) * Math.Sin(deltaPhi / 2) +
+                    Math.Cos(phi1) * Math.Cos(phi2) *
+                    Math.Sin(deltaLambda / 2) * Math.Sin(deltaLambda / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return R * c; 
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpGet]
+        public async Task<IActionResult> Threats()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+
+            var myFarms = await _context.Sheepfarms.Where(f => f.OwnerId == currentUserId).ToListAsync();
+
+            ViewBag.MyFarms = myFarms;
+
+            var allThreats = await _context.Threats.Include(t => t.Reporter).Where(t => t.Status == ThreatStatus.Active).ToListAsync();
+
+            var nearbyThreats = new List<Threat>();
+
+            if (!myFarms.Any())
+            {
+                nearbyThreats = allThreats.Where(t => t.ReporterId == currentUserId).ToList();
+            }
+            else
+            {
+                foreach (var threat in allThreats)
+                {
+                    if (threat.ReporterId == currentUserId)
+                    {
+                        nearbyThreats.Add(threat);
+                        continue;
+                    }
+
+                    foreach (var farm in myFarms)
+                    {
+                        if (CalculateDistance(farm.Latitude, farm.Longitude, threat.Latitude, threat.Longitude) <= 20000)
+                        {
+                            if (!nearbyThreats.Contains(threat)) nearbyThreats.Add(threat);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return View(nearbyThreats.OrderByDescending(t => t.TimeReported).ToList());
+        }
+
+
+
+        [HttpGet]
+        [AllowAnonymous] 
+        public async Task<IActionResult> Threat(int id)
+        {
+            var threat = await _context.Threats.Include(t => t.Reporter).FirstOrDefaultAsync(t => t.Id == id);
+
+            if (threat == null) return NotFound();
+
+            return View(threat);
+        }
+
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpGet]
+        public IActionResult AddThreat()
+        {
+            return View(new ThreatViewModel());
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddThreat(ThreatViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var currentUserId = _userManager.GetUserId(User);
+            string? uniqueFileName = null;
+
+            if (model.ImageFile != null)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images", "threats");
+                Directory.CreateDirectory(uploadsFolder);
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(fileStream);
+                }
+            }
+
+            var threat = new Threat
+            {
+                ReporterId = currentUserId,
+                Type = model.Type,
+                Description = model.Description,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                Status = ThreatStatus.Active,
+                MapIcon = (model.Type == ThreatType.Wolf) ? "icons/wolfIcon.png" : "icons/bearIcon.png",
+                TimeReported = DateTimeOffset.UtcNow,
+                ImagePath = uniqueFileName
+            };
+
+            _context.Threats.Add(threat);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Threats));
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpGet]
+        public async Task<IActionResult> EditThreat(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var threat = await _context.Threats.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (threat == null) return NotFound();
+            if (threat.ReporterId != currentUserId) return Forbid();
+
+            var model = new ThreatViewModel
+            {
+                Id = threat.Id,
+                Type = threat.Type,
+                Description = threat.Description,
+                Latitude = threat.Latitude,
+                Longitude = threat.Longitude,
+                ExistingImagePath = threat.ImagePath 
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditThreat(ThreatViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var currentUserId = _userManager.GetUserId(User);
+            var threat = await _context.Threats.FirstOrDefaultAsync(t => t.Id == model.Id);
+
+            if (threat == null) return NotFound();
+            if (threat.ReporterId != currentUserId) return Forbid();
+
+            threat.Type = model.Type;
+            threat.Description = model.Description;
+            threat.Latitude = model.Latitude;
+            threat.Longitude = model.Longitude;
+
+            if (model.ImageFile != null)
+            {
+                if (!string.IsNullOrEmpty(threat.ImagePath))
+                {
+                    string oldPath = Path.Combine(_hostEnvironment.WebRootPath, "images", "threats", threat.ImagePath);
+                    if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                }
+
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images", "threats");
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(fileStream);
+                }
+
+                threat.ImagePath = uniqueFileName;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Threats));
+        }
+
+
+        [Authorize(Roles = "Shepherd")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteThreat(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var threat = await _context.Threats.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (threat == null) return NotFound();
+
+            var isModerator = User.IsInRole("Moderator");
+            if (threat.ReporterId != currentUserId && !isModerator) return Forbid();
+
+            if (!string.IsNullOrEmpty(threat.ImagePath))
+            {
+                string filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "threats", threat.ImagePath);
+                if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
+            }
+
+            _context.Threats.Remove(threat);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Threats));
         }
 
     }
