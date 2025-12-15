@@ -30,5 +30,15 @@ namespace StanaGO.Models
 
         [ForeignKey (nameof (ReporterId))]
         public virtual User Reporter { get; set; } = null!;
+
+        [StringLength(255)]
+        public string? ImagePath { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Încarcă Imagine")]
+        public IFormFile? ImageFile { get; set; }
+
+        [StringLength(500)]
+        public string? Description { get; set; }
     }
 }

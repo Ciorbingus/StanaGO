@@ -1,0 +1,163 @@
+﻿@model StanaGO.Models.Threat
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+@using StanaGO.Enums
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Detalii Amenințare";
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isReporter = (currentUserId == Model.ReporterId);
+    var isModerator = User.IsInRole("Moderator");
+
+    var isWolf = Model.Type == ThreatType.Wolf;
+    var themeColor = isWolf ? "danger" : "warning";
+    var themeIcon = isWolf ? "fa-dog" : "fa-paw";
+    var threatName = isWolf ? "Lup" : "Urs";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm border-0 mb-5 overflow-hidden">
+
+        <div class="card-header bg-@themeColor text-white d-flex justify-content-between align-items-center px-4 py-3">
+            <h4 class="mb-0">
+                <i class="fa-solid fa-circle-exclamation me-2"></i> Alertă: <strong>@threatName</strong>
+            </h4>
+            <span class="badge bg-white text-@themeColor">
+                <i class="fa-regular fa-clock"></i> @Model.TimeReported.ToString("dd MMM yyyy, HH:mm")
+            </span>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="row g-0">
+
+                <div class="col-md-6 p-4 d-flex flex-column">
+
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <div class="mb-4 text-center">
+                            <img src="~/images/threats/@Model.ImagePath" class="img-fluid rounded shadow-sm" alt="Imagine Amenintare" style="max-height: 400px; object-fit: cover;">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary text-center py-4 mb-4">
+                            <i class="fa-solid fa-image-slash fa-2x mb-2"></i>
+                            <p class="mb-0">Nu există imagine atașată.</p>
+                        </div>
+                    }
+
+                    <h5 class="fw-bold text-muted">Descriere:</h5>
+                    <p class="lead fs-6 mb-4">
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            @Model.Description
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">Nicio descriere furnizată.</span>
+                        }
+                    </p>
+
+                    <p class="text-muted small border-top pt-2">
+                        Raportat de:
+                    </p>
+
+                    <a asp-controller="Account" asp-action="Profile" asp-route-id="@Model.Reporter.Id" class="text-primary text-decoration-none fw-bold">
+                        @Model.Reporter.FirstName @Model.Reporter.LastName
+                    </a>
+
+                    <div class="mt-auto d-flex gap-2">
+                        <a asp-action="Threats" class="btn btn-outline-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Înapoi
+                        </a>
+
+                        @if (isReporter || isModerator)
+                        {
+                            <a asp-action="EditThreat" asp-route-id="@Model.Id" class="btn btn-outline-warning text-dark shadow-sm">
+                                <i class="fa-solid fa-pen"></i> Editează
+                            </a>
+
+                            <button type="button" class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteThreatModal">
+                                <i class="fa-solid fa-trash"></i> Șterge
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div id="threatMap" class="h-100 w-100" style="min-height: 400px;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isReporter || isModerator)
+{
+    <div class="modal fade" id="deleteThreatModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirmare Ștergere Alertă</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <i class="fa-solid fa-triangle-exclamation fa-3x text-danger mb-3"></i>
+                    <p class="lead">Ești sigur că vrei să ștergi această semnalare de <strong>@threatName</strong>?</p>
+                    <p class="small text-muted">Această acțiune va elimina alerta de pe harta tuturor ciobanilor.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Anulează</button>
+                    <form asp-action="DeleteThreat" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-danger px-4">Da, Șterge</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var lat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var lng = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        var map = L.map('threatMap').setView([lat, lng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var marker = L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup("<b>@threatName</b><br>Raportat la: @Model.TimeReported.ToString("HH:mm")")
+            .openPopup();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLat = position.coords.latitude;
+                var userLon = position.coords.longitude;
+
+                L.circleMarker([userLat, userLon], {
+                    radius: 6,
+                    fillColor: "#0d6efd",
+                    color: "#fff",
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map).bindPopup("Tu ești aici");
+
+                var group = new L.featureGroup([marker, L.circleMarker([userLat, userLon])]);
+                map.fitBounds(group.getBounds(), {padding: [50,50]});
+            });
+        }
+    </script>
+}

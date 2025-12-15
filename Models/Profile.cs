@@ -1,21 +1,35 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StanaGO.Models
 {
     public class Profile
     {
-
         [Key]
-        [StringLength(450)]
-        public string Id { get; set; } 
-        public DateTime DateOfBirth { get; set; }
-        public string AvatarUrl { get; set; }
+        [ForeignKey("User")] 
+        public string Id { get; set; }
 
-        public string LocationText { get; set; }
-        public User User { get; set; }
-        public string Bio { get; set; } = string.Empty;
+        public virtual User User { get; set; } = null!;
 
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; } = string.Empty;
 
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; } = string.Empty;
+
+        [StringLength(500)]
+        public string? Bio { get; set; }
+
+        [StringLength(200)]
+        public string? Address { get; set; }
+
+        [StringLength(255)]
+        public string? ImagePath { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Încarcă Imagine de Profil")]
+        public IFormFile? ImageFile { get; set; }
     }
 }

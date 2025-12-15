@@ -1,0 +1,86 @@
+﻿@model StanaGO.ViewModels.ProductViewModel
+@using StanaGO.Enums  
+
+@{
+    ViewData["Title"] = "Editează Produsul";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Modifică Detalii Produs</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-action="EditProduct" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-4 text-center">
+                                <label class="form-label text-muted">Imagine Curentă</label><br />
+                                @if (!string.IsNullOrEmpty(Model.CurrentImagePath))
+                                {
+                                    <img src="/images/products/@Model.CurrentImagePath" class="img-thumbnail" style="max-height: 120px;">
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Fără poză</span>
+                                }
+                            </div>
+                            <div class="col-md-8">
+                                <label asp-for="NewImage" class="form-label fw-bold">Schimbă Imaginea</label>
+                                <input asp-for="NewImage" class="form-control" type="file" accept="image/*" />
+                                <span asp-validation-for="NewImage" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label asp-for="Name" class="form-label fw-bold">Nume Produs</label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Price" class="form-label fw-bold">Preț (RON)</label>
+                                <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Status" class="form-label fw-bold">Disponibilitate</label>
+
+                            <select asp-for="Status"
+                                    class="form-select"
+                                    asp-items="Html.GetEnumSelectList<ProductStatus>()">
+                            </select>
+
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold">Descriere</label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Product" asp-route-id="@Model.Id" class="btn btn-secondary me-md-2">Anulează</a>
+                            <button type="submit" class="btn btn-warning px-4">Salvează Modificările</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts 
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

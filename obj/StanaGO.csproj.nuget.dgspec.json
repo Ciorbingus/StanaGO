@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\IS\\StanaGO\\StanaGO\\StanaGO.csproj": {}
+    "A:\\Coding\\StanaGO\\StanaGO.csproj": {}
   },
   "projects": {
-    "D:\\IS\\StanaGO\\StanaGO\\StanaGO.csproj": {
+    "A:\\Coding\\StanaGO\\StanaGO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\IS\\StanaGO\\StanaGO\\StanaGO.csproj",
+        "projectUniqueName": "A:\\Coding\\StanaGO\\StanaGO.csproj",
         "projectName": "StanaGO",
-        "projectPath": "D:\\IS\\StanaGO\\StanaGO\\StanaGO.csproj",
-        "packagesPath": "C:\\Users\\todit\\.nuget\\packages\\",
-        "outputPath": "D:\\IS\\StanaGO\\StanaGO\\obj\\",
+        "projectPath": "A:\\Coding\\StanaGO\\StanaGO.csproj",
+        "packagesPath": "C:\\Users\\popes\\.nuget\\packages\\",
+        "outputPath": "A:\\Coding\\StanaGO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\todit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\popes\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -88,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

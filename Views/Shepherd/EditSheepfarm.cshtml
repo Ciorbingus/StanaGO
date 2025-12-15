@@ -1,0 +1,106 @@
+﻿@model StanaGO.ViewModels.SheepFarmViewModel
+
+@{
+    ViewData["Title"] = "Editează Stâna";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">✏️ Modifică Detalii & Locație</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit">
+                        <input type="hidden" asp-for="Id" />
+
+                        <input type="hidden" asp-for="Latitude" id="latInput" />
+                        <input type="hidden" asp-for="Longitude" id="lngInput" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label asp-for="Name" class="form-label fw-bold">Numele Stânei</label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Address" class="form-label fw-bold">Adresă (Text)</label>
+                                    <textarea asp-for="Address" class="form-control" rows="4"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+
+                                <div class="alert alert-info small">
+                                    <i class="bi bi-info-circle"></i>
+                                    Mută semnul pe hartă pentru a actualiza locația GPS a stânei.
+                                </div>
+                            </div>
+
+                            <div class="col-md-7">
+                                <label class="form-label fw-bold">Locație pe Hartă (Apasa pentru a muta)</label>
+                                <div id="editMap" class="rounded border shadow-sm" style="height: 400px; width: 100%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Sheepfarm" asp-route-id="@Model.Id" class="btn btn-secondary me-md-2">Anulează</a>
+                            <button type="submit" class="btn btn-primary px-5">Salvează Modificările</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var currentLat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var currentLng = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        var map = L.map('editMap').setView([currentLat, currentLng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var redIcon = new L.Icon.Default();
+
+        var marker = L.marker([currentLat, currentLng], {
+            icon: redIcon,
+            draggable: true, 
+            autoPan: true
+        }).addTo(map);
+
+        marker.bindPopup("Foloseste semnul pentru a schimba locația.").openPopup();
+
+        function updateInputs(lat, lng) {
+            document.getElementById('latInput').value = lat;
+            document.getElementById('lngInput').value = lng;
+        }
+
+        marker.on('dragend', function(e) {
+            var position = marker.getLatLng();
+            updateInputs(position.lat, position.lng);
+        });
+
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng); 
+            updateInputs(e.latlng.lat, e.latlng.lng); 
+        });
+
+    </script>
+}

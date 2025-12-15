@@ -1,96 +1,161 @@
-﻿@model StanaGO.ViewModels.ProfileViewModel
+﻿@model StanaGO.Models.Profile
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
 
 @{
-    ViewData["Title"] = "Profilul meu";
+    ViewData["Title"] = "Profil Utilizator";
+
+    var imgSrc = string.IsNullOrEmpty(Model.ImagePath)
+        ? "/images/default_user.png"
+        : $"/images/profiles/{Model.ImagePath}";
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isOwner = (currentUserId == Model.Id);
+
+    var userRole = ViewData["UserRole"] as string;
+    var userProducts = ViewData["UserProducts"] as List<StanaGO.Models.Product>;
 }
 
-<div class="container mt-4">
-    <div class="row">
+<div class="container mt-5 mb-5">
 
-        <div class="col-md-4">
-            <div class="card text-center">
-                <div class="card-body">
-                    <img src="@(string.IsNullOrWhiteSpace(Model.AvatarUrl) ? "/images/default-avatar.png" : Model.AvatarUrl)"
-                         alt="Avatar"
-                         class="rounded-circle mb-3"
-                         style="width: 150px; height: 150px; object-fit: cover;" />
-
-                    <h4 class="card-title">
-                        @Model.FirstName @Model.LastName
-                    </h4>
-                    <p class="text-muted mb-1">
-                        @("@" + Model.Username)
-                    </p>
-                    <p class="text-muted mb-0">
-                        @Model.Email
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="card-title">Contact</h5>
-                    <p class="mb-1">
-                        <strong>Telefon:</strong>
-                        @(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "Nu este setat" : Model.PhoneNumber)
-                    </p>
-                    <p class="mb-1">
-                        <strong>Locație:</strong>
-                        @(string.IsNullOrWhiteSpace(Model.LocationText) ? "Nu este setată" : Model.LocationText)
-                    </p>
-                    @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
-                    {
-                            <p class="mb-0">
-                                <strong>Coordonate:</strong>
-                            @Model.Latitude.Value.ToString("0.000000"), 
-                            @Model.Longitude.Value.ToString("0.000000")
-                            </p>
-                    }
-                </div>
-            </div>
-        </div>
-
-
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Despre mine</h5>
-                    @if (string.IsNullOrWhiteSpace(Model.Bio))
+            <div class="card shadow border-0">
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+                        <img src="@imgSrc" class="rounded-circle border border-4 border-white shadow"
+                             style="width: 150px; height: 150px; object-fit: cover;" alt="Avatar">
+                    </div>
+
+                    <h2 class="card-title fw-bold">@Model.FirstName @Model.LastName</h2>
+
+                    <div class="mb-2">
+                        @if (userRole == "Shepherd")
+                        {
+                            <span class="badge bg-success">Cioban</span>
+                        }
+                        else if (userRole == "Moderator")
+                        {
+                            <span class="badge bg-danger">Moderator</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Utilizator Obisnuit</span>
+                        }
+                    </div>
+
+                    @if (User.IsInRole("Moderator"))
                     {
-                            <p class="text-muted mb-0">Nu ai adăugat încă o descriere.</p>
+                        <p class="text-muted small">ID: @Model.Id</p>
                     }
-                    else
-                    {
-                            <p class="mb-0">@Model.Bio</p>
-                    }
-                </div>
-            </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Informații cont</h5>
-                    <dl class="row mb-3">
-                        <dt class="col-sm-4">Nume complet</dt>
-                        <dd class="col-sm-8">@Model.FirstName @Model.LastName</dd>
+                    <hr class="my-4" />
 
-                        <dt class="col-sm-4">Email</dt>
-                        <dd class="col-sm-8">@Model.Email</dd>
+                    <div class="text-start px-4">
+                        <div class="row mb-3">
+                            <div class="col-sm-3 fw-bold text-secondary">Telefon:</div>
+                            <div class="col-sm-9">@(ViewData["UserPhone"] ?? "Nespecificat")</div>
+                        </div>
 
-                        <dt class="col-sm-4">Username</dt>
-                        <dd class="col-sm-8">@Model.Username</dd>
+                        <div class="row mb-3">
+                            <div class="col-sm-3 fw-bold text-secondary">Adresă:</div>
+                            <div class="col-sm-9">@(Model.Address ?? "Adresa nu a fost setată.")</div>
+                        </div>
 
-                        <dt class="col-sm-4">ID utilizator</dt>
-                        <dd class="col-sm-8">@Model.UserId</dd>
-                    </dl>
+                        <div class="row mb-3">
+                            @if (isOwner)
+                            {
+                                <div class="col-sm-3 fw-bold text-secondary">Despre tine:</div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-3 fw-bold text-secondary">Despre @(Model.LastName):</div>
+                            }
+                            <div class="col-sm-9 fst-italic">
+                                @(Model.Bio ?? "Fară descriere.")
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="mt-4 d-grid gap-2 col-md-6 mx-auto">
+                        @if (isOwner)
+                        {
+                            <a asp-action="EditProfile" class="btn btn-primary">Editează Datele</a>
+                        }
 
-                    <a asp-controller="Account"
-                       asp-action="EditProfile"
-                       class="btn btn-primary mt-2">
-                        ✏️ Editează profilul
-                    </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Înapoi la Hartă</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @if (userProducts != null && userProducts.Any())
+    {
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-10">
+                @if (isOwner)
+                {
+                    <h3 class="mb-4 text-center border-bottom pb-2">
+                        Produsele tale
+                    </h3>
+                }
+                else
+                {
+                    <h3 class="mb-4 text-center border-bottom pb-2">
+                        Produse oferite de @Model.FirstName @Model.LastName
+                    </h3>
+                }
+                <div class="row">
+                    @foreach (var prod in userProducts)
+                    {
+                        // Imagine produs
+                        var productImg = string.IsNullOrEmpty(prod.ImagePath)
+                        ? "https://via.placeholder.com/300x200?text=Fara+Poza"
+                        : $"/images/products/{prod.ImagePath}";
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm border-0 position-relative hover-effect">
+
+                                <div style="position: relative;">
+                                    <img src="@productImg" class="card-img-top"
+                                         loading="lazy"
+                                         style="height: 180px; object-fit: cover; border-radius: 5px 5px 0 0;">
+
+                                    <span class="badge nav-bg-color text-white" style="position: absolute; top: 10px; right: 10px;">
+                                        @prod.Price RON
+                                    </span>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="card-title text-truncate" title="@prod.Name">@prod.Name</h5>
+
+                                    <p class="card-text text-muted small mb-2">
+                                        <strong>@(prod.Farm?.Name ?? "Necunoscută")</strong>
+                                    </p>
+
+                                    <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+ 
 </div>
+
+<style>
+    .hover-effect {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        }
+</style>
