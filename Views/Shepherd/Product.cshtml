@@ -1,0 +1,129 @@
+﻿@model StanaGO.Models.Product
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var imgSrc = string.IsNullOrEmpty(Model.ImagePath)
+        ? "https://via.placeholder.com/600x400?text=Fara+Poza"
+        : $"/images/products/{Model.ImagePath}";
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isOwner = (currentUserId == Model.Farm.OwnerId);
+    var ownerName = $"{Model.Farm.Owner.FirstName} {Model.Farm.Owner.LastName}";
+    var isModerator = User.IsInRole("Moderator");
+}
+
+<div class="container mt-5">
+
+    <div class="card shadow border-0 overflow-hidden">
+        <div class="row g-0">
+            <div class="col-md-6 bg-light d-flex align-items-center justify-content-center">
+                <img src="@imgSrc" class="img-fluid" style="max-height: 500px; width: 100%; object-fit: cover;" alt="@Model.Name">
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body p-5 d-flex flex-column h-100">
+
+                    <div>
+                        <div class="badge bg-secondary mb-2">
+                            <a asp-controller="Shepherd" asp-action="Sheepfarm" asp-route-id="@Model.Farm.Id" class="text-white text-decoration-none">@Model.Farm.Name</a>
+                        </div>
+                        <div class="badge bg-secondary mb-2">
+                            <a asp-controller="Account" asp-action="Profile" asp-route-id="@Model.Farm.OwnerId" class="text-white text-decoration-none">@ownerName</a>
+                        </div>
+                        <h1 class="fw-bold mb-3">@Model.Name</h1>
+
+                        <h2 class="text-success mb-4">
+                            @Model.Price RON
+                        </h2>
+
+                        <hr>
+
+                        <h5 class="fw-bold">Descriere</h5>
+                        <p class="text-muted">
+                            @(Model.Description ?? "Ciobanul nu a adăugat o descriere detaliată, dar produsul este natural și proaspăt.")
+                        </p>
+                    </div>
+
+                    <div class="mt-auto pt-4">
+
+                        @if (isOwner || isModerator)
+                        {
+                            <div class="d-grid gap-2 mb-2">
+                                <a asp-controller="Shepherd" asp-action="EditProduct" asp-route-id="@Model.Id" class="btn btn-success btn-lg shadow-sm">
+                                    Modifica Detalii
+                                </a>
+                            </div>
+                     
+                            <div class="d-grid gap-2 mb-2">
+                                <button type="button" class="btn btn-danger btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    Sterge Produs
+                                </button>
+                            </div>
+                        }
+
+                        @if (!isOwner)
+                        {
+                            <div class="d-grid gap-2">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+                                    Cumpără Acum
+                                </a>
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+                                    Trimite Mesaj Ciobanului
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (isOwner)
+    {
+        <div class="mt-3">
+            <a asp-action="YourFarms" class="btn btn-outline-secondary">Inapoi</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Inapoi la Harta</a>
+        </div>
+    }
+
+</div>
+
+@if (isOwner || isModerator)
+{
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmare Stergere</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body text-center p-4">
+                    <p class="lead">Esti sigur ca vrei sa stergi produsul <br> <strong>"@Model.Name"</strong>?</p>
+                    <p class="text-muted small">Aceasta actiune este ireversibila.</p>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Nu, Anuleaza</button>
+
+                    <form asp-controller="Shepherd" asp-action="DeleteProduct" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-danger px-4">Da, Sterge</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

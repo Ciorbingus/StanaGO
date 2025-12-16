@@ -1,0 +1,213 @@
+﻿@model StanaGO.Models.Sheepfarm
+@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var currentUserId = UserManager.GetUserId(User);
+    var isOwner = (currentUserId == Model.OwnerId);
+    var isModerator = User.IsInRole("Moderator");
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm border-0 mb-5 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <div class="col-md-7 mb-3 mb-md-0 p-4 d-flex flex-column justify-content-center">
+                    <h1 class="display-6 fw-bold">@Model.Name</h1>
+                    <p class="text-muted lead mb-4">
+                        <i class="bi bi-geo-alt-fill"></i> @Model.Address
+                    </p>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        @if (isOwner || isModerator)
+                        {
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary shadow-sm">
+                                Modifica Detalii
+                            </a>
+                         
+                            @if (isOwner)
+                            {
+                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color text-white shadow-sm">
+                                    Adaugă Produs
+                                </a>
+                            }
+
+                            <button type="button" class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteFarmModal">
+                                Sterge Stana
+                            </button>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div id="farmMap" class="rounded shadow-sm border" style="height: 350px; width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <h4 class="mb-3 border-bottom pb-2">Produse disponibile</h4>
+
+        @if (Model.Products == null || !Model.Products.Any())
+        {
+            <div class="alert alert-warning text-center p-5">
+                <h4>Încă nu ai adăugat produse.</h4>
+                <p>Adaugă brânză, lână sau alte bunătăți pentru a le vinde!</p>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var prod in Model.Products)
+                {
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 shadow-sm position-relative hover-effect">
+                            @if (!string.IsNullOrEmpty(prod.ImagePath))
+                            {
+                                <img src="~/images/products/@prod.ImagePath" class="card-img-top" alt="@prod.Name" style="height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">Fără Poză</div>
+                            }
+
+                            <div class="card-body">
+                                <h5 class="card-title">@prod.Name</h5>
+                                <p class="card-text small text-muted">@prod.Description</p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="badge nav-bg-color text-white">@prod.Price RON</span>
+                                    <span class="text-muted small">@prod.Status</span>
+                                </div>
+                                <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (isOwner)
+    {
+        <div class="mt-3">
+            <a asp-action="YourFarms" class="btn btn-outline-secondary">Înapoi la lista de stâne</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Înapoi la Harta</a>
+        </div>
+    }
+</div>
+
+@if (isOwner || isModerator)
+{
+    <div class="modal fade" id="deleteFarmModal" tabindex="-1" aria-labelledby="deleteFarmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteFarmModalLabel">Confirmare Stergere Stana</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-4">
+                    <p class="lead text-center mb-4">Esti sigur ca vrei sa stergi stana <br> <strong>"@Model.Name"</strong>?</p>
+
+                    <div class="alert alert-light border border-danger">
+                        <strong class="text-danger">Atentie!</strong>
+                        <ul class="mb-0 small text-muted">
+                            <li>Aceasta actiune este ireversibila.</li>
+                            <li>Toate cele <strong>@((Model.Products?.Count) ?? 0)</strong> produse asociate vor fi sterse.</li>
+                            <li>Locatia va disparea de pe harta.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Nu, Anuleaza</button>
+
+                    <form asp-controller="Shepherd" asp-action="DeleteFarm" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-danger px-4">Da, Sterge Tot</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .hover-effect {
+        transition: transform 0.2s;
+    }
+
+        .hover-effect:hover {
+            transform: scale(1.02);
+            cursor: pointer;
+        }
+</style>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var farmLat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var farmLon = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        var romaniaBounds = [ [43.5, 20.2], [48.7, 29.7] ];
+
+        var map = L.map('farmMap', {
+            center: [farmLat, farmLon],
+            zoom: 13,
+            minZoom: 6,
+            maxZoom: 18,
+            maxBounds: romaniaBounds,
+            scrollWheelZoom: true
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var sheepIcon = L.icon({
+            iconUrl: '/images/icons/sheepfarmIcon.png',
+            iconSize: [35, 35],
+            iconAnchor: [17, 35],
+            popupAnchor: [0, -35]
+        });
+
+        L.marker([farmLat, farmLon], {icon: sheepIcon})
+          .addTo(map)
+          .bindPopup("<b>@Model.Name</b>")
+          .openPopup();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var userLat = position.coords.latitude;
+                var userLon = position.coords.longitude;
+
+                L.circleMarker([userLat, userLon], {
+                    radius: 8,
+                    fillColor: "#0d6efd",
+                    color: "#fff",
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map).bindPopup("Tu esti aici");
+
+            }, function(error) {
+            });
+        }
+    </script>
+}

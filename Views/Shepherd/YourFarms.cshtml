@@ -1,0 +1,46 @@
+﻿@model IEnumerable<StanaGO.Models.Sheepfarm>
+
+@{
+    ViewData["Title"] = "Your Farms";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Stânele Tale</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <a asp-action="RegisterFarm" class="text-decoration-none">
+                <div class="card h-100 border-dashed d-flex align-items-center justify-content-center bg-light text-secondary"
+                     style="border: 2px dashed #ccc; min-height: 200px; cursor: pointer; transition: 0.3s;">
+                    <div class="text-center">
+                        <h1 class="display-4 mb-0">+</h1>
+                        <span class="fw-bold">Înregistrează Stână</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        @foreach (var farm in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header nav-bg-color text-white">
+                        <h5 class="card-title mb-0">@farm.Name</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            @farm.Address
+                        </p>
+                        <hr />
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-info text-dark">@farm.Products?.Count Produse</span>
+                            <a asp-action="Sheepfarm" asp-route-id="@farm.Id" class="btn btn-outline-primary btn-sm">Gestionează &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

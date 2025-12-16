@@ -1,0 +1,92 @@
+﻿@model StanaGO.Models.Sheepfarm
+
+@{
+    ViewData["Title"] = "Register Farm";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container mt-4">
+    <h2>📍 Înregistrează o nouă stână</h2>
+    <p class="text-muted">Completează detaliile și dă click pe hartă pentru a seta locația exactă.</p>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label">Nume Stână</label>
+                    <input asp-for="Name" class="form-control" placeholder="Ex: Stâna din Deal" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Address" class="control-label">Adresa / Reper</label>
+                    <input asp-for="Address" class="form-control" placeholder="Ex: Lângă pădurea Hoia" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" asp-for="Latitude" id="Lat" />
+                <input type="hidden" asp-for="Longitude" id="Lng" />
+
+                <div class="alert alert-secondary">
+                    <small>Coordonate selectate:</small><br />
+                    <strong>Lat:</strong> <span id="displayLat">-</span> <br />
+                    <strong>Long:</strong> <span id="displayLng">-</span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="submit" value="Salvează Stâna" class="btn nav-bg-color text-white w-100" />
+                    <a asp-action="YourFarms" class="btn btn-link w-100 mt-2">Anulează</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <div id="map" style="height: 500px; width: 100%; border-radius: 8px; border: 2px solid #ddd;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([46.0, 25.0], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker;
+
+        function onMapClick(e) {
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+
+            document.getElementById('Lat').value = e.latlng.lat;
+            document.getElementById('Lng').value = e.latlng.lng;
+
+            document.getElementById('displayLat').innerText = e.latlng.lat.toFixed(5);
+            document.getElementById('displayLng').innerText = e.latlng.lng.toFixed(5);
+        }
+
+        map.on('click', onMapClick);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                map.setView([lat, lng], 13);
+            });
+        }
+    </script>
+}

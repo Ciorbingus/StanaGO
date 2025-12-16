@@ -1,0 +1,120 @@
+﻿@using StanaGO.Enums
+@model StanaGO.ViewModels.ThreatViewModel
+
+@{
+    ViewData["Title"] = "Editează Amenințare";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow border-0">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">✏️ Modifică Raportul</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-action="EditThreat" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ExistingImagePath" />
+
+                        <input type="hidden" asp-for="Latitude" id="latInput" />
+                        <input type="hidden" asp-for="Longitude" id="lngInput" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="mb-3">
+                                    <label asp-for="Type" class="form-label fw-bold">Tip Amenințare</label>
+                                    <select asp-for="Type" class="form-select" asp-items="Html.GetEnumSelectList<ThreatType>()"></select>
+                                    <span asp-validation-for="Type" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label fw-bold">Descriere / Detalii</label>
+                                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Imagine Curentă</label>
+                                    @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                                    {
+                                        <div class="mb-2">
+                                            <img src="~/images/threats/@Model.ExistingImagePath" class="img-thumbnail rounded" style="max-height: 150px;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted fst-italic">Fără imagine.</p>
+                                    }
+
+                                    <label asp-for="ImageFile" class="form-label mt-2">Schimbă Imaginea (Opțional)</label>
+                                    <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                                </div>
+
+                                <div class="alert alert-info small">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    Mută semnul pe hartă pentru a actualiza locația GPS a stânei.
+                                </div>
+                            </div>
+
+                            <div class="col-md-7">
+                                <label class="form-label fw-bold">Locație Pericol</label>
+                                <div id="editMap" class="rounded border shadow-sm" style="height: 500px; width: 100%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Threats" class="btn btn-secondary me-md-2">Anulează</a>
+                            <button type="submit" class="btn btn-warning px-5">Salvează Modificările</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var currentLat = @Model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var currentLng = @Model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+        var map = L.map('editMap').setView([currentLat, currentLng], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        var marker = L.marker([currentLat, currentLng], {
+            draggable: true,
+            autoPan: true
+        }).addTo(map);
+
+        marker.bindPopup("Locația actuală a incidentului").openPopup();
+
+        function updateInputs(lat, lng) {
+            document.getElementById('latInput').value = lat;
+            document.getElementById('lngInput').value = lng;
+        }
+
+        marker.on('dragend', function(e) {
+            var position = marker.getLatLng();
+            updateInputs(position.lat, position.lng);
+        });
+
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            updateInputs(e.latlng.lat, e.latlng.lng);
+        });
+    </script>
+}

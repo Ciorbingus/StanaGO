@@ -1,0 +1,134 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using StanaGO.Models
+
+@inject UserManager<User> UserManager
+
+@{
+    var currentUserId = UserManager.GetUserId(User);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StanaGO</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StanaGO.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark nav-bg-color nav-text_color border-bottom box-shadow mb-3">    @* Navbar *@ 
+            <div class="container-fluid">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StanaGO</a>                       @* buton home / Numele site-ului *@
+
+                <div class="d-flex align-items-center w-100">                                                                  @* Aliniere elemente navbar *@
+
+                    <div class="d-none d-sm-flex align-items-center me-auto ms-5" style="min-width: 300px; max-width: 500px;">      @* Cautare *@
+                        @if ( User.Identity.IsAuthenticated )
+                        {
+                            <form class="d-flex w-100" role="search" asp-controller="Home" asp-action="Index" method="get">
+                                <div class="input-group">
+                                    <input class="form-control" type="search" placeholder="Căută-n giur de tine..." aria-label="Search" name="query">
+                                    <button class="btn btn-light" type="submit" title="Căutare">
+                                        <span aria-hidden="true" class="text-primary">🔍</span>
+                                    </button>
+                                </div>
+                            </form>
+                        }
+                    </div>
+
+                    <ul class="navbar-nav">                                             
+
+                        @if ( User.Identity.IsAuthenticated )
+                        {
+                            <li class="nav-item dropdown me-2">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Notificări
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="notificationDropdown" data-bs-theme="dark">
+                                    <li><a class="dropdown-item disabled text-white" href="#">(Nu ai notificari noi)</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown nav-bg-color">                     @* meniu dropdown *@
+                                @{
+                                    var currUser = await UserManager.GetUserAsync(User);
+                                    var displayName = currUser != null ? $"{currUser.FirstName}" : User.Identity.Name;
+                                }
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    Salut, @displayName! ☰
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end nav-bg-color" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 400px">
+                                    <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="Profile" asp-route-id="@currentUserId">Profilul tău</a></li>
+
+
+                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Mesaje</a></li>
+
+                                    <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Comenzi</a></li>
+
+                                    @if ( User.IsInRole ("Casual") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Account" asp-action="BecomeShepherd">Devino cioban!</a></li>
+                                    }
+
+                                    @if ( User.IsInRole ("Shepherd") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Shepherd" asp-action="YourFarms">Stânele tale</a></li>
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Clienti</a></li>
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Shepherd" asp-action="Threats">Amenintari</a></li>
+                                    }
+
+                                    @if ( User.IsInRole ("Moderator") )
+                                    {
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Reclamatii</a></li
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Panou de Comanda</a></li
+
+                                        <li><a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">Jurnal</a></li>
+                                    }
+
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    <li style="position: absolute; bottom: 0; left: 0; width: 100%; padding-bottom: 5px;">
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item p-0">
+                                            <button type="submit" class="btn btn-link text-white w-100 text-start ps-3">Logout</button>
+                                        </form>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - StanaGO - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
