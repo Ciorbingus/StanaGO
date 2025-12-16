@@ -1,0 +1,150 @@
+﻿@model StanaGO.ViewModels.SearchViewModel
+
+@{
+    ViewData["Title"] = "Rezultate Căutare";
+}
+
+<div class="container mt-5 mb-5">
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <form class="d-flex w-100" role="search" asp-controller="Home" asp-action="SearchResults" method="get">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Căută-n giur de tine..." aria-label="Search" name="query">
+                    <button class="btn btn-light" type="submit" title="Căutare">
+                        <span aria-hidden="true" class="text-primary">🔍</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mb-5">
+        <div class="btn-group shadow-sm" role="group">
+            <a asp-action="SearchResults" asp-route-query="@Model.Query" asp-route-filter="all"
+               class="btn @(Model.Filter == "all" ? "btn-dark" : "btn-outline-dark")">
+                Toate
+            </a>
+            <a asp-action="SearchResults" asp-route-query="@Model.Query" asp-route-filter="farms"
+               class="btn @(Model.Filter == "farms" ? "btn-dark" : "btn-outline-dark")">
+                <i class="fa-solid fa-house-chimney"></i> Stâne
+            </a>
+            <a asp-action="SearchResults" asp-route-query="@Model.Query" asp-route-filter="products"
+               class="btn @(Model.Filter == "products" ? "btn-dark" : "btn-outline-dark")">
+                <i class="fa-solid fa-cheese"></i> Produse
+            </a>
+            <a asp-action="SearchResults" asp-route-query="@Model.Query" asp-route-filter="profiles"
+               class="btn @(Model.Filter == "profiles" ? "btn-dark" : "btn-outline-dark")">
+                <i class="fa-solid fa-user"></i> Profiluri
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Farms.Any() && !Model.Products.Any() && !Model.Profiles.Any() && !string.IsNullOrEmpty(Model.Query))
+    {
+        <div class="text-center py-5 text-muted">
+            <i class="fa-regular fa-face-frown-open fa-3x mb-3"></i>
+            <h4>Nu am găsit niciun rezultat pentru "<strong>@Model.Query</strong>"</h4>
+            <p>Încearcă alte cuvinte cheie.</p>
+        </div>
+    }
+
+    @if (Model.Farms.Any())
+    {
+        <div class="mb-5">
+            <h4 class="border-bottom pb-2 mb-3"><i class="fa-solid fa-house-chimney text-success"></i> Stâne găsite</h4>
+            <div class="row">
+                @foreach (var farm in Model.Farms)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 shadow-sm hover-effect">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">@farm.Name</h5>
+                                <p class="card-text text-muted small">
+                                    <i class="fa-solid fa-location-dot"></i> @farm.Address
+                                </p>
+                                <a asp-controller="Shepherd" asp-action="Sheepfarm" asp-route-id="@farm.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @if (Model.Products.Any())
+    {
+        <div class="mb-5">
+            <h4 class="border-bottom pb-2 mb-3"><i class="fa-solid fa-cheese text-warning"></i> Produse găsite</h4>
+            <div class="row">
+                @foreach (var prod in Model.Products)
+                {
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-effect">
+                            <div style="position: relative;">
+                                @if (!string.IsNullOrEmpty(prod.ImagePath))
+                                {
+                                    <img src="~/images/products/@prod.ImagePath" class="card-img-top" style="height: 150px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 150px;">Fără Foto</div>
+                                }
+                                <span class="badge bg-primary position-absolute top-0 end-0 m-2">@prod.Price RON</span>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title text-truncate">@prod.Name</h6>
+                                <p class="small text-muted mb-1">
+                                    <i class="fa-solid fa-shop"></i> @(prod.Farm?.Name ?? "Stână necunoscută")
+                                </p>
+                                <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @if (Model.Profiles.Any())
+    {
+        <div class="mb-5">
+            <h4 class="border-bottom pb-2 mb-3"><i class="fa-solid fa-users text-primary"></i> Utilizatori găsiți</h4>
+            <div class="list-group shadow-sm">
+                @foreach (var profile in Model.Profiles)
+                {
+                    <a asp-controller="Account" asp-action="Profile" asp-route-id="@profile.User.Id" class="list-group-item list-group-item-action d-flex align-items-center p-3">
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            @if (!string.IsNullOrEmpty(profile.ImagePath))
+                            {
+                                <img src="~/images/profiles/@profile.ImagePath" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-user text-secondary fa-lg"></i>
+                            }
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">@profile.User.FirstName @profile.User.LastName</h6>
+                            <small class="text-muted">@@@profile.User.UserName</small>
+                        </div>
+                        <div class="ms-auto">
+                            <i class="fa-solid fa-chevron-right text-muted"></i>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .hover-effect {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .hover-effect:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+        }
+</style>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StanaGO.Data;
 using StanaGO.Models;
+using StanaGO.ViewModels;
 using System.Diagnostics;
 
 namespace StanaGO.Controllers
@@ -114,6 +115,50 @@ namespace StanaGO.Controllers
             }
             return View ();     
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> SearchResults(string query, string filter = "all")
+        {
+            var model = new SearchViewModel
+            {
+                Query = query,
+                Filter = filter
+            };
+
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return View(model); 
+            }
+
+            query = query.Trim();
+            if (filter == "all" || filter == "profiles")
+            {
+                model.Profiles = await _context.Profiles
+                    .Include(p => p.User).Where(p => p.User.FirstName.Contains(query) || p.User.LastName.Contains(query) || p.User.UserName.Contains(query))
+                    .AsNoTracking().ToListAsync();
+            }
+
+            if (filter == "all" || filter == "products")
+            {
+                model.Products = await _context.Products
+                    .Include(p => p.Farm).Where(p => p.Name.Contains(query) || p.Description.Contains(query))
+                    .AsNoTracking().ToListAsync();
+            }
+
+            if (filter == "all" || filter == "farms")
+            {
+                model.Farms = await _context.Sheepfarms
+                    .Where(f => f.Name.Contains(query) || f.Address.Contains(query))
+                    .AsNoTracking().ToListAsync();
+            }
+
+            return View(model);
+        }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

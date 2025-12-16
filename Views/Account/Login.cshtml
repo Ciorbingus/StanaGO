@@ -1,54 +1,72 @@
 ﻿@model StanaGO.ViewModels.LoginViewModel
 
 @{
-    ViewData [ "Title" ] = "Login";
+    ViewData["Title"] = "Autentificare";
 }
 
-<h2>Autentificare</h2>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
 
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-action="Login">
+            <div class="card authentification-card">
 
-            <hr />
+                <div class="authentification-header">
+                    <div class="mb-3">
+                        <i class="fa-solid fa-circle-user fa-4x"></i>
+                    </div>
+                    <h3 class="mb-0">Bine ai revenit!</h3>
+                    <p class="small text-white-50 mb-0">Introdu datele pentru a accesa StanaGO</p>
+                </div>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" asp-action="Login">
 
-            <div class="form-group">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="nume@exemplu.com" />
+                            <label asp-for="Email"><i class="fa-solid fa-envelope me-1"></i> Email</label>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
 
-                <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" class="form-control" placeholder="Parola" type="password" />
+                            <label asp-for="Password"><i class="fa-solid fa-lock me-1"></i> Parolă</label>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" asp-for="RememberMe" />
+                            <label class="form-check-label text-muted" asp-for="RememberMe">
+                                Ține-mă minte!
+                            </label>
+                        </div>
+
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-primary btn-authentification btn-block text-uppercase">
+                                Autentificare
+                            </button>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-2">Nu ai un cont încă?</p>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-dark btn-sm px-4 rounded-pill">
+                                Creează cont nou
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="form-group form-check">
-                <input class="form-check-input" asp-for="RememberMe" />
-                <label class="form-check-label" asp-for="RememberMe">
-                    Ține-mă minte?
-                </label>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-
-            <div>
-                <a asp-controller="Account" asp-action="Register">Nu ai cont? Înregistrează-te</a>
-            </div>
-
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync ("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

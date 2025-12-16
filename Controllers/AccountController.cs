@@ -60,7 +60,14 @@ namespace StanaGO.Controllers
                     Email = model.Email,
                     RegistrationTime = DateTimeOffset.UtcNow,
                     Status = StanaGO.Enums.UserStatus.Online,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+
+                    UserProfile = new Profile 
+                    {
+                        Bio = "Salutare, StanaGO", 
+                        ImagePath = null 
+                    }
+
                 };
 
                 var passwordHasher = new PasswordHasher<User>();
@@ -142,7 +149,7 @@ namespace StanaGO.Controllers
         public async Task<IActionResult> Logout() // actiunea pentru deconectarea utilizatorului
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Welcome", "Home");
         }
 
 

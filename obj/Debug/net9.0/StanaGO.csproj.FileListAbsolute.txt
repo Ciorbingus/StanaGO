@@ -396,7 +396,6 @@ A:\Coding\StanaGO\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 A:\Coding\StanaGO\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 A:\Coding\StanaGO\obj\Debug\net9.0\scopedcss\bundle\StanaGO.styles.css
 A:\Coding\StanaGO\obj\Debug\net9.0\scopedcss\projectbundle\StanaGO.bundle.scp.css
-A:\Coding\StanaGO\obj\Debug\net9.0\compressed\n7gpa6o04o-{0}-yjacpu935i-yjacpu935i.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\ebyvwkowpj-{0}-2jhh5cdd8y-2jhh5cdd8y.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\t1ak455wh2-{0}-fr7q2aak1r-fr7q2aak1r.gz
 A:\Coding\StanaGO\obj\Debug\net9.0\compressed\uqpixzxchi-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -472,3 +471,4 @@ A:\Coding\StanaGO\obj\Debug\net9.0\refint\StanaGO.dll
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.pdb
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.genruntimeconfig.cache
 A:\Coding\StanaGO\obj\Debug\net9.0\ref\StanaGO.dll
+A:\Coding\StanaGO\obj\Debug\net9.0\compressed\n7gpa6o04o-{0}-hljuhn2ylx-hljuhn2ylx.gz

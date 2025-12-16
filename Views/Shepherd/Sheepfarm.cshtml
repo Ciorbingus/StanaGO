@@ -34,7 +34,7 @@
                          
                             @if (isOwner)
                             {
-                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn nav-bg-color text-white shadow-sm">
+                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn stana-go-theme text-white shadow-sm">
                                     Adaugă Produs
                                 </a>
                             }
@@ -85,7 +85,7 @@
                                 <h5 class="card-title">@prod.Name</h5>
                                 <p class="card-text small text-muted">@prod.Description</p>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <span class="badge nav-bg-color text-white">@prod.Price RON</span>
+                                    <span class="badge stana-go-theme">@prod.Price RON</span>
                                     <span class="text-muted small">@prod.Status</span>
                                 </div>
                                 <a asp-controller="Shepherd" asp-action="Product" asp-route-id="@prod.Id" class="stretched-link"></a>
@@ -150,12 +150,12 @@
 
 <style>
     .hover-effect {
-        transition: transform 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
         .hover-effect:hover {
-            transform: scale(1.02);
-            cursor: pointer;
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
         }
 </style>
 
