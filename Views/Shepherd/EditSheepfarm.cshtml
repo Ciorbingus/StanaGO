@@ -10,8 +10,8 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">✏️ Modifică Detalii & Locație</h4>
+                <div class="card-header stana-go-theme">
+                    <h4 class="mb-0">Modifică Detalii & Locație</h4>
                 </div>
                 <div class="card-body p-4">
 
@@ -32,7 +32,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label asp-for="Address" class="form-label fw-bold">Adresă (Text)</label>
+                                    <label asp-for="Address" class="form-label fw-bold">Adresă</label>
                                     <textarea asp-for="Address" class="form-control" rows="4"></textarea>
                                     <span asp-validation-for="Address" class="text-danger"></span>
                                 </div>
@@ -44,14 +44,14 @@
                             </div>
 
                             <div class="col-md-7">
-                                <label class="form-label fw-bold">Locație pe Hartă (Apasa pentru a muta)</label>
+                                <label class="form-label fw-bold">Locație pe Hartă</label>
                                 <div id="editMap" class="rounded border shadow-sm" style="height: 400px; width: 100%;"></div>
                             </div>
                         </div>
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                            <a asp-action="Sheepfarm" asp-route-id="@Model.Id" class="btn btn-secondary me-md-2">Anulează</a>
-                            <button type="submit" class="btn btn-primary px-5">Salvează Modificările</button>
+                            <a asp-action="Sheepfarm" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Anulează</a>
+                            <button type="submit" class="btn stana-go-btn">Salvează Modificările</button>
                         </div>
                     </form>
 

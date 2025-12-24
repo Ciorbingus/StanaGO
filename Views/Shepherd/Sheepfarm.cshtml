@@ -28,13 +28,13 @@
                     <div class="d-flex gap-2 flex-wrap">
                         @if (isOwner || isModerator)
                         {
-                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary shadow-sm">
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn stana-go-btn">
                                 Modifica Detalii
                             </a>
                          
                             @if (isOwner)
                             {
-                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn stana-go-theme text-white shadow-sm">
+                                <a asp-action="AddProduct" asp-route-farmId="@Model.Id" class="btn stana-go-btn2">
                                     Adaugă Produs
                                 </a>
                             }

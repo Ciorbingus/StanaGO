@@ -1,6 +1,7 @@
 ﻿@model StanaGO.Models.Product
 @using Microsoft.AspNetCore.Identity
 @using StanaGO.Models
+@using StanaGO.Enums
 
 @inject UserManager<User> UserManager
 
@@ -29,15 +30,15 @@
                 <div class="card-body p-5 d-flex flex-column h-100">
 
                     <div>
-                        <div class="badge bg-secondary mb-2">
+                        <div class="badge stana-go-theme mb-2">
                             <a asp-controller="Shepherd" asp-action="Sheepfarm" asp-route-id="@Model.Farm.Id" class="text-white text-decoration-none">@Model.Farm.Name</a>
                         </div>
-                        <div class="badge bg-secondary mb-2">
+                        <div class="badge stana-go-theme mb-2">
                             <a asp-controller="Account" asp-action="Profile" asp-route-id="@Model.Farm.OwnerId" class="text-white text-decoration-none">@ownerName</a>
                         </div>
                         <h1 class="fw-bold mb-3">@Model.Name</h1>
 
-                        <h2 class="text-success mb-4">
+                        <h2 class="text-black mb-4">
                             @Model.Price RON
                         </h2>
 
@@ -45,7 +46,7 @@
 
                         <h5 class="fw-bold">Descriere</h5>
                         <p class="text-muted">
-                            @(Model.Description ?? "Ciobanul nu a adăugat o descriere detaliată, dar produsul este natural și proaspăt.")
+                            @(Model.Description ?? "Fără descriere.")
                         </p>
                     </div>
 
@@ -54,13 +55,11 @@
                         @if (isOwner || isModerator)
                         {
                             <div class="d-grid gap-2 mb-2">
-                                <a asp-controller="Shepherd" asp-action="EditProduct" asp-route-id="@Model.Id" class="btn btn-success btn-lg shadow-sm">
+                                <a asp-controller="Shepherd" asp-action="EditProduct" asp-route-id="@Model.Id" class="btn stana-go-btn2">
                                     Modifica Detalii
                                 </a>
-                            </div>
-                     
-                            <div class="d-grid gap-2 mb-2">
-                                <button type="button" class="btn btn-danger btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                          
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Sterge Produs
                                 </button>
                             </div>
@@ -69,10 +68,24 @@
                         @if (!isOwner)
                         {
                             <div class="d-grid gap-2">
-                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
-                                    Cumpără Acum
-                                </a>
-                                <a asp-controller="Home" asp-action="Index" class="btn btn-success btn-lg shadow-sm">
+
+                                @if (@Model.Status == ProductStatus.Available)
+                                {
+                                    <form asp-controller="Order" asp-action="AddOrder" method="post">
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                        <button type="submit" class="btn stana-go-btn">
+                                            Cumpără Acum
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-secondary btn-lg shadow-sm" disabled>
+                                        Produs Indisponibil
+                                    </button>
+                                }
+
+                                <a asp-controller="Home" asp-action="Index" class="btn stana-go-btn2">
                                     Trimite Mesaj Ciobanului
                                 </a>
                             </div>

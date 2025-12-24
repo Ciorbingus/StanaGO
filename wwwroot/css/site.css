@@ -30,26 +30,26 @@ body {
   text-align: start;
 }
 
-.stana-go-theme {
+.stana-go-btn {
     background-color: #4CBFED;
     color: white;
 }
 
-    .stana-go-theme:hover {
+    .stana-go-btn:hover {
         background-color: #3883A1;
         color: white;
     }
 
-.stana-go-theme-secondary {
+.stana-go-btn2 {
     background-color: #ACE1FA;
     color: black;
 }
-    .stana-go-theme-secondary:hover {
-        background-color: 80CBED;
+    .stana-go-btn2:hover {
+        background-color: #5FA8C9;
         color: black;
     }
 
-.stana-go-nav {
+.stana-go-theme {
     background: #4CBFED;
     color: white;
 }

@@ -471,4 +471,4 @@ A:\Coding\StanaGO\obj\Debug\net9.0\refint\StanaGO.dll
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.pdb
 A:\Coding\StanaGO\obj\Debug\net9.0\StanaGO.genruntimeconfig.cache
 A:\Coding\StanaGO\obj\Debug\net9.0\ref\StanaGO.dll
-A:\Coding\StanaGO\obj\Debug\net9.0\compressed\n7gpa6o04o-{0}-hljuhn2ylx-hljuhn2ylx.gz
+A:\Coding\StanaGO\obj\Debug\net9.0\compressed\n7gpa6o04o-{0}-56zt99ialz-56zt99ialz.gz

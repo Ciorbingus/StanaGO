@@ -8,6 +8,7 @@ wwwroot\images\icons\wolfIcon.png
 wwwroot\images\products\9fffd964-6dde-46f4-b624-60b561271128_Screenshot 2024-01-14 204032.png
 wwwroot\images\products\Screenshot 2024-01-31 161212251953954.png
 wwwroot\images\products\Screenshot 2024-01-31 214809252032931.png
+wwwroot\images\products\Screenshot 2024-02-18 175125251859384.png
 wwwroot\images\profiles\0b771c85-2793-4569-bc9e-fc462aa41ac8_image_2025-12-11_211002518.png
 wwwroot\images\profiles\1374c31e-6a35-48a6-ac78-9d7d9cc009de_aa78a442-ced4-4c32-a249-1828c0c46d56.jpg
 wwwroot\images\profiles\2801d3c3-531b-4ae9-9bae-4530552e1943_Screenshot 2024-01-26 235524.png

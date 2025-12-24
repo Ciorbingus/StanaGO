@@ -1,0 +1,72 @@
+﻿@model List<StanaGO.ViewModels.OrdersViewModel>
+@using StanaGO.Enums
+
+@{
+    ViewData["Title"] = "Comenzile mele";
+}
+
+<h2 class="mb-4">Comenzile tale</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Nu ai încă nicio comandă.
+    </div>
+}
+else
+{
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="stana-go-theme">
+            <tr>
+                <th>Produs</th>
+                <th>Client</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Acțiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.ProductName</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        @if (order.Status == ProductStatus.Queued)
+                        {
+                            <span class="badge stana-go-theme">În așteptare</span>
+                        }
+                        else if (order.Status == ProductStatus.Sold)
+                        {
+                            <span class="badge bg-primary">Confirmată</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Finalizată</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!order.SellerConfirmed)
+                        {
+                            <form asp-controller="Order"
+                                  asp-action="ConfirmSeller"
+                                  method="post"
+                                  class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <button type="submit" class="btn stana-go-btn">
+                                    Confirmă
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-success fw-bold">Confirmat</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

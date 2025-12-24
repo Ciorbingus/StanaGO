@@ -1,0 +1,94 @@
+﻿@model List<StanaGO.ViewModels.OrdersViewModel>
+@using StanaGO.Enums
+@{
+    ViewData["Title"] = "Comenzi de la clienți";
+}
+
+<h2 class="mb-4">Comenzi primite de la clienți</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Nu ai încă comenzi de la clienți.
+    </div>
+}
+else
+{
+    <table class="table table-hover align-middle">
+        <thead class="stana-go-theme">
+            <tr>
+                <th>Produs</th>
+                <th>Client</th>
+                <th>Dată</th>
+                <th>Status</th>
+                <th>Confirmări</th>
+                <th>Acțiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.ProductName</td>
+                    <td>@order.CustomerName</td>
+                    <td>@order.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        @if (order.Status == ProductStatus.Queued)
+                        {
+                            <span class="badge stana-go-theme">În așteptare</span>
+                        }
+                        else if (order.Status == ProductStatus.Sold)
+                        {
+                            <span class="badge stana-go-theme">Confirmată</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">Livrată</span>
+                        }
+                    </td>
+                    <td>
+                        <div>
+                            Client:
+                            @if (order.CustomerConfirmed)
+                            {
+                                <span class="text-success">✔</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">✖</span>
+                            }
+                        </div>
+                        <div>
+                            Tu:
+                            @if (order.SellerConfirmed)
+                            {
+                                <span class="text-success">✔</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">✖</span>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        @if (!order.SellerConfirmed)
+                        {
+                            <form asp-controller="Order"
+                                  asp-action="ConfirmSeller"
+                                  method="post">
+                                <input type="hidden" name="id" value="@order.Id" />
+                                <button class="btn stana-go-btn">
+                                    Confirm vânzarea
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Confirmat</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -22,6 +22,8 @@ namespace StanaGO.Data
 
         public DbSet<Profile> Profiles { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -53,6 +55,24 @@ namespace StanaGO.Data
                       .HasForeignKey<Profile>(p => p.Id) 
                       .OnDelete(DeleteBehavior.Cascade); 
             });
+
+            builder.Entity<Order>()
+                 .HasOne(o => o.Customer)
+                 .WithMany()
+                 .HasForeignKey(o => o.CustomerId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.Seller)
+                .WithMany()
+                .HasForeignKey(o => o.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.Product)
+                .WithMany()
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

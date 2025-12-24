@@ -22,7 +22,7 @@
     <header>
 
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark stana-go-nav border-bottom box-shadow mb-3">    @* Navbar *@ 
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark stana-go-theme border-bottom box-shadow mb-3">    @* Navbar *@ 
             <div class="container-fluid">
 
                 @if ( User.Identity.IsAuthenticated )    @* buton home / Numele site-ului *@
@@ -62,7 +62,7 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item dropdown stana-go-nav">                     @* meniu dropdown *@
+                            <li class="nav-item dropdown stana-go-them">                     @* meniu dropdown *@
                                 @{
                                     var currUser = await UserManager.GetUserAsync(User);
                                     var displayName = currUser != null ? $"{currUser.FirstName}" : User.Identity.Name;
@@ -71,13 +71,13 @@
 
                                     Salut, @displayName! ☰
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end stana-go-nav" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 400px">
+                                <ul class="dropdown-menu dropdown-menu-end stana-go-theme" aria-labelledby="userDropdown" data-bs-theme="dark" style="min-height: 400px">
                                     <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Account" asp-action="Profile" asp-route-id="@currentUserId">Profilul tău</a></li>
 
 
                                     <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Home" asp-action="Index">Mesaje</a></li>
 
-                                    <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Home" asp-action="Index">Comenzi</a></li>
+                                    <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Order" asp-action="MyOrders">Comenzi</a></li>
 
                                     @if ( User.IsInRole ("Casual") )
                                     {
@@ -88,7 +88,7 @@
                                     {
                                         <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Shepherd" asp-action="YourFarms">Stânele tale</a></li>
 
-                                        <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Home" asp-action="Index">Clienti</a></li>
+                                        <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Order" asp-action="FromClients">Clienti</a></li>
 
                                         <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Shepherd" asp-action="Threats">Amenintari</a></li>
                                     }
@@ -102,11 +102,11 @@
                                         <li><a class="dropdown-item stana-go-dropdown-item" asp-controller="Home" asp-action="Index">Jurnal</a></li>
                                     }
 
-                                    <li><hr class="dropdown-divider"></li>
-
-                                    <li style="position: absolute; bottom: 0; left: 0; width: 100%; padding-bottom: 5px;">
-                                        <form asp-controller="Account" asp-action="Logout" method="post" class="dropdown-item p-0">
-                                            <button type="submit" class="btn btn-link text-white w-100 text-start ps-3">Logout</button>
+                                    <li style="position: absolute; bottom: 0; left: 0; width: 90%; margin-bottom: 5px;">
+                                        <form asp-controller="Account" asp-action="Logout" method="post">
+                                            <button type="submit" class="dropdown-item stana-go-dropdown-item border-0 w-100 text-center">
+                                                    Logout
+                                            </button>
                                         </form>
                                     </li>
 
