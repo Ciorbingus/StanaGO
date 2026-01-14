@@ -24,7 +24,7 @@ StanaGO este o platforma web dedicata digitalizarii comertului mioritic. Aplicat
 ## Instructiuni de Instalare
 
 1.  Clonati repository-ul:
-    git clone https://github.com/username/StanaGO.git
+    git clone https://github.com/Ciorbingus/StanaGO.git
 
 2.  Configurati conexiunea la baza de date in fisierul `appsettings.json` (sectiunea ConnectionStrings).
 
