@@ -1,0 +1,145 @@
+﻿@model StanaGO.Controllers.ChatViewModel
+
+@{
+    ViewData["Title"] = Model.PartnerName + " Chat";
+}
+
+<style>
+    .chat-box {
+        height: 65vh;
+        overflow-y: auto;
+        background-color: #f0f2f5;
+        border-radius: 0 0 10px 10px;
+        padding: 20px;
+    }
+
+    .message-bubble {
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 18px;
+        margin-bottom: 8px;
+        position: relative;
+        font-size: 0.95rem;
+        word-wrap: break-word;
+    }
+
+    .msg-mine {
+        background-color: #0d6efd;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 2px;
+        margin-left: auto;
+    }
+
+    .msg-partner {
+        background-color: white;
+        color: #212529;
+        align-self: flex-start;
+        border-bottom-left-radius: 2px;
+        margin-right: auto;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .msg-time {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        text-align: right;
+        margin-top: 4px;
+        display: block;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="card shadow border-0" style="border-radius: 10px;">
+
+        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center" style="border-radius: 10px 10px 0 0;">
+            <a asp-action="Inbox" class="btn btn-light btn-sm rounded-circle me-3"><i class="fa-solid fa-arrow-left"></i></a>
+
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center me-3 border" style="width: 45px; height: 45px; overflow: hidden;">
+                    @if (!string.IsNullOrEmpty(Model.PartnerImage))
+                    {
+                        <img src="~/images/profiles/@Model.PartnerImage" style="width: 100%; height: 100%; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-user text-secondary"></i>
+                    }
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold">@Model.PartnerName</h6>
+                    <small class="text-success"><i class="fa-solid fa-circle fa-xs"></i> Online</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="d-flex flex-column chat-box" id="chatContainer">
+                @foreach (var msg in Model.Messages)
+                {
+                    bool isMine = msg.SenderId == Model.CurrentUserId;
+                    <div class="message-bubble @(isMine ? "msg-mine" : "msg-partner")">
+                        @msg.Content
+                        <span class="msg-time">@msg.SentTime.ToString("HH:mm")</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card-footer bg-white py-3 border-top">
+            <form id="chatForm" class="d-flex gap-2">
+                <input type="hidden" id="receiverId" value="@Model.PartnerId" />
+                <input type="text" id="msgInput" class="form-control rounded-pill bg-light border-0 px-4" placeholder="Scrie un mesaj..." autocomplete="off">
+                <button type="submit" class="btn btn-primary rounded-circle" style="width: 45px; height: 45px;">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts 
+{
+    <script>
+        var chatContainer = document.getElementById("chatContainer");
+
+        function scrollToBottom() 
+        {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        scrollToBottom();
+
+        document.getElementById("chatForm").addEventListener("submit", function(e) 
+        {
+            e.preventDefault();
+
+            var input = document.getElementById("msgInput");
+            var content = input.value;
+            var receiverId = document.getElementById("receiverId").value;
+
+            if(!content.trim()) return;
+
+            var now = new Date();
+            var timeString = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+
+            var html = `
+                <div class="message-bubble msg-mine">
+                    ${content}
+                    <span class="msg-time">${timeString}</span>
+                </div>`;
+
+            chatContainer.insertAdjacentHTML('beforeend', html);
+            scrollToBottom();
+            input.value = ""; 
+
+            fetch('/Chat/SendMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `receiverId=${receiverId}&content=${encodeURIComponent(content)}`
+            }).then(response => {
+                if(!response.ok) console.error("Eroare la trimitere");
+            });
+        });
+    </script>
+}

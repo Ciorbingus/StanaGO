@@ -85,8 +85,11 @@
                                     </button>
                                 }
 
-                                <a asp-controller="Home" asp-action="Index" class="btn stana-go-btn2">
-                                    Trimite Mesaj Ciobanului
+                                <a asp-controller="Chat"
+                                   asp-action="Chat"
+                                   asp-route-id="@Model.Farm.OwnerId"
+                                   class="btn stana-go-btn2">
+                                    <i class="fa-solid fa-envelope me-2"></i> Trimite Mesaj Ciobanului
                                 </a>
                             </div>
                         }
