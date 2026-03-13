@@ -1,40 +1,67 @@
 # StanaGO
 
-StanaGO este o platforma web dedicata digitalizarii comertului mioritic. Aplicatia conecteaza producatorii locali cu turistii, facilitand comertul cu produse traditionale si sporind siguranta stanelor prin alerte in timp real.
+**StanaGO** is a web platform dedicated to the digitalization of traditional Romanian pastoral commerce. The application bridges the gap between local producers (shepherds) and tourists, facilitating the trade of organic traditional products while enhancing safety through real-time hazard alerts.
 
-## Functionalitati Cheie
+##  Key Features
 
-* **Harta Interactiva:** Vizualizarea stanelor si a produselor folosind Leaflet.js și OpenStreetMap.
-* **Sistem de Alerte:** Raportarea si afisarea pericolelor (ursi, lupi) în timp real, cu filtrare pe baza distanței.
-* **Chat:** Sistem de mesagerie privata.
-* **Gestiune Produse:** Ciobanii pot administra inventarul, prețurile și disponibilitatea produselor.
-* **Permisiuni pe Roluri:** Acces diferentiat pentru utilizatori inregistrati și ciobani.
-* **Interfata Responsive:** Design adaptabil pentru dispozitive mobile.
+* **Interactive Mapping:** Visualization of sheepfolds and their products using **Leaflet.js** and **OpenStreetMap**.
+* **Real-Time Alert System:** Reporting and displaying hazards (e.g., bears, wolves) in real-time, featuring distance-based filtering to keep tourists safe.
+* **Integrated Chat:** A private messaging system for direct communication between consumers and producers.
+* **Product Management:** A dedicated dashboard for shepherds to manage their inventory, pricing, and availability.
+* **Role-Based Access Control (RBAC):** Secure, differentiated access levels for tourists, producers, and administrators.
+* **Responsive Design:** A mobile-first approach ensuring the platform is accessible from any device, even in remote areas.
 
-## Tehnologii Utilizate
+---
+
+##  Tech Stack
+
+The project is built using a modern enterprise-grade stack:
 
 * **Framework:** ASP.NET Core MVC
-* **Limbaj:** C#
-* **Baza de date:** Microsoft SQL Server
+* **Language:** C#
+* **Database:** Microsoft SQL Server
 * **ORM:** Entity Framework Core
 * **Frontend:** Razor Pages, Bootstrap 5, JavaScript
-* **Harti:** Leaflet.js
+* **Maps API:** Leaflet.js
 
 
-## Instructiuni de Instalare
 
-1.  Clonati repository-ul:
-    git clone https://github.com/Ciorbingus/StanaGO.git
+---
 
-2.  Configurati conexiunea la baza de date in fisierul `appsettings.json` (sectiunea ConnectionStrings).
+##  Installation & Setup
 
-3.  Aplicati migratiile pentru a crea baza de date:
+Follow these steps to get the project running locally:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Ciorbingus/StanaGO.git](https://github.com/Ciorbingus/StanaGO.git)
+    ```
+
+2.  **Database Configuration:**
+    Open `appsettings.json` and update the `ConnectionStrings` section with your local SQL Server instance details:
+    ```json
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=YOUR_SERVER;Database=StanaGO;Trusted_Connection=True;MultipleActiveResultSets=true"
+    }
+    ```
+
+3.  **Apply Migrations:**
+    Create the database schema by running:
+    ```bash
     dotnet ef database update
+    ```
 
-4.  Rulati aplicatia:
+4.  **Run the Application:**
+    ```bash
     dotnet run
+    ```
 
-## Echipa
+---
 
-* Popescu Florian
-* Todi Tinu-Constantin
+## The Team
+
+* **Popescu Florian**
+* **Todi Tinu-Constantin**
+
+---
+*Digitalizing traditions with StanaGO.*
